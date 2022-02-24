@@ -1,7 +1,17 @@
 breast_cancer_analytics
 ==============================
 
-templates for ml description
+修士論文共同研究
+
+# 環境構築
+anaconda環境  
+- breast_cancer_analytics.yml
+pycaretインストール
+- pycaret_requirements.txt
+
+
+#　プロジェクト構成
+---
 
 Project Organization
 ------------
