@@ -5,8 +5,9 @@ breast_cancer_analytics
 
 # 環境構築
 anaconda環境  
-- breast_cancer_analytics.yml
-pycaretインストール
+- breast_cancer_analytics.yml  
+pycaretインストール  
+conda経由だとエラーが発生するので以下のファイルをもとにpip経由でインストールすること. 
 - pycaret_requirements.txt
 
 
