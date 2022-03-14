@@ -8,22 +8,24 @@ breast_cancer_analytics
 PythonやAnacondaのようなデータ解析ツールは2022年現在、DS界隈の標準と言っても過言ではありません。でもMATLABやExcel、RにJuliaと様々な物があるので過言かもしれません。  
 何にせよ、今回の分析では201X年以降入学された皆さんが講義で使い慣れたであろうPythonをベースとしたパッケージであるAnacondaを中心に扱っていきます。  
 Anacondaではいわゆる**仮想環境**を作成することができ、この仮想環境を作るための設計図である*hogehoge*.yml（hogehogeは任意のファイル名です）をAnaconda環境で読み込むことでOSやハードウェアの垣根を超えて同じ環境を作成することができます。  
-当リポジトリをcloneしたらまずは仮想環境を構築してみましょう。
+当リポジトリをcloneしたらまずは仮想環境を構築してみましょう。  
 尚、PyCaretというライブラリを利用するに当たり、M1 Macを利用している方は依存ライブラリのインストールにエラーが発生します。
 PyCaretを利用する際は別途pycaret_requirement.txtからPyCaretの依存ライブラリを**pip install**してください。
 
 ## 仮想環境構築注意点
-### ファイル
+### データ分析環境
 - Anaconda仮想環境のファイル
     - breast_cancer_analytics.yml  
+
+### モデル構築環境
 - pycaretインストール（M1 Macでは、conda経由でpycaretライブラリのインストールにエラーが発生します。以下のファイルをもとにpip経由でインストールしてください）
     - pycaret_requirements.txt
 ### コマンド
 - 仮想環境インストール
-    - conda env create -n *任意の仮想環境名* -f *仮想環境ファイル名*.yml
+    - conda env create -n *任意の仮想環境名* -f *仮想環境ファイル名*.yml  
     例) conda env create -n breast-cancer-analytics -f breast_cancer_analytics.yml
 - 仮想環境エクスポート
-    - conda env export > *hogehoge*.yml
+    - conda env export > *hogehoge*.yml  
     例) conda env export > breast_cancer_analytics.yml
 
 # プロジェクト構成
