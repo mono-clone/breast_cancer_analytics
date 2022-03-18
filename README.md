@@ -25,7 +25,7 @@ PyCaretを利用する際は別途pycaret_requirement.txtからPyCaretの依存�
     - conda env create -n *任意の仮想環境名* -f *仮想環境ファイル名*.yml  
     例) conda env create -n breast-cancer-analytics -f breast_cancer_analytics.yml
 - 仮想環境エクスポート
-    - conda env export > *hogehoge*.yml  
+    - conda env export --no-builds > *hogehoge*.yml  
     例) conda env export > breast_cancer_analytics.yml
 
 # プロジェクト構成
