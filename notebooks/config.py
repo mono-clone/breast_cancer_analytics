@@ -1,3 +1,4 @@
+# DIRs
 DATA_DIR = "../data"
 EXTERNAL_DIR = DATA_DIR + "/external"
 INTERIM_DIR = DATA_DIR + "/interim"
@@ -13,3 +14,7 @@ FIGURES_DIR=REPORT_DIR+"/figures"
 SEABORN_DIR=FIGURES_DIR+"/sns"
 PANDAS_PROFILING_REPORT_DIR = REPORT_DIR + "/pandas-profiling_report"
 SWEETVIZ_REPORT_DIR = REPORT_DIR + "/sweetviz_report"
+
+
+# FILEs
+RAW_BRCA_METABRIC_TG=RAW_DIR+'/brca_metabric.tar.gz'
