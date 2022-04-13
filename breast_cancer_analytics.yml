@@ -1,4 +1,4 @@
-name: bca
+name: base
 channels:
   - conda-forge
   - defaults
@@ -412,4 +412,4 @@ dependencies:
   - zope.event=4.5.0
   - zope.interface=5.4.0
   - zstd=1.4.9
-prefix: /opt/conda/envs/bca
+prefix: /opt/conda
