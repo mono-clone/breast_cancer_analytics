@@ -27,6 +27,7 @@ docker pull continuumio/anaconda3
 docker run --name breast_cancer_analytics --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it continuumio/anaconda3:latest  
 
 # Linux環境を整える
+cd breast_cancer_analytics
 apt update && apt upgrade -y && apt autoremove
 apt install make
 make create_conda_env
@@ -46,12 +47,6 @@ docker exec -it container_ID /bin/sh
 conda activate breast-cancer-analytics
 jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
 ```
-
-### コマンド
-- 仮想環境インストール  
-    `make import_conda_env`
-- 仮想環境エクスポート  
-    `make export_conda_env`
 
 # プロジェクト構成
 プロジェクトの構成をディレクトリで個人の思うままに管理すると不満に思う人も出てくるでしょう。

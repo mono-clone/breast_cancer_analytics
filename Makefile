@@ -88,12 +88,6 @@ activate_conda:
 	conda activate breast-cancer-analytics
 	jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
 
-import_conda_env:
-	conda env create -n breast-cancer-analytics -f breast_cancer_analytics.yml
-
-export_conda_env:
-	conda env export --no-builds > breast_cancer_analytics.yml
-
 #################################################################################
 # Self Documenting Commands                                                     #
 #################################################################################
