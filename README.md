@@ -48,12 +48,6 @@ conda activate breast-cancer-analytics
 jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
 ```
 
-### コマンド
-- 仮想環境インストール  
-    `make import_conda_env`
-- 仮想環境エクスポート  
-    `make export_conda_env`
-
 # プロジェクト構成
 プロジェクトの構成をディレクトリで個人の思うままに管理すると不満に思う人も出てくるでしょう。
 しかし、1人1人の思想を反映するとディレクトリ構成を決めるだけでも大変です。
