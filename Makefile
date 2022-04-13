@@ -81,7 +81,6 @@ test_environment:
 #################################################################################
 
 create_conda_env:
-	cd breast_cancer_analytics
 	conda update -n base -c defaults conda -y
 	conda env create -f conda_env.yml
 

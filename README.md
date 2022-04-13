@@ -27,6 +27,7 @@ docker pull continuumio/anaconda3
 docker run --name breast_cancer_analytics --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it continuumio/anaconda3:latest  
 
 # Linux環境を整える
+cd breast_cancer_analytics
 apt update && apt upgrade -y && apt autoremove
 apt install make
 make create_conda_env
