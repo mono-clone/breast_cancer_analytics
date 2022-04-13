@@ -15,18 +15,43 @@ PyCaretを利用する際は別途pycaret_requirement.txtからPyCaretの依存�
 ## 仮想環境構築注意点
 ### データ分析環境
 - Anaconda仮想環境のファイル
-    - breast_cancer_analytics.yml  
+    - conda_env.yml  
 
 ### モデル構築環境
-- pycaretインストール（M1 Macでは、conda経由でpycaretライブラリのインストールにエラーが発生します。以下のファイルをもとにpip経由でインストールしてください）
-    - pycaret_requirements.txt
+要docker-desktop  
+
+初回のdocker+anaconda環境構築  
+```
+# docker上でanaconda環境(Linux OS)を作成
+docker pull continuumio/anaconda3  
+docker run --name breast_cancer_analytics --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it continuumio/anaconda3:latest  
+
+# Linux環境を整える
+apt update && apt upgrade -y && apt autoremove
+apt install make
+make create_conda_env
+
+# jupyter起動
+conda activate breast-cancer-analytics
+jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
+```
+
+2回目以降
+docker desktopなどでdocker container起動してからの手順。  
+```
+# dockerコンテナに入る
+docker exec -it container_ID /bin/sh
+
+# jupyter起動
+conda activate breast-cancer-analytics
+jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
+```
+
 ### コマンド
-- 仮想環境インストール
-    - conda env create -n *任意の仮想環境名* -f *仮想環境ファイル名*.yml  
-    例) conda env create -n breast-cancer-analytics -f breast_cancer_analytics.yml
-- 仮想環境エクスポート
-    - conda env export --no-builds > *hogehoge*.yml  
-    例) conda env export --no-builds > breast_cancer_analytics.yml
+- 仮想環境インストール  
+    `make import_conda_env`
+- 仮想環境エクスポート  
+    `make export_conda_env`
 
 # プロジェクト構成
 プロジェクトの構成をディレクトリで個人の思うままに管理すると不満に思う人も出てくるでしょう。
