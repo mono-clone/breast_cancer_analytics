@@ -16,7 +16,8 @@ EXTERNAl_BRCA_METABRIC_DATA_CLNICAL_DIR = EXTERNAL_DIR + "/brca_metabric_data_cl
 
 # interim dirs
 INTERIM_BRCA_METABRIC_DIR = INTERIM_DIR + "/brca_metabric"
-
+INTERIM_PICKLE_DIR= INTERIM_DIR+"/pickle_data"
+INTERIM_PICKLE_EDA_DIR=INTERIM_PICKLE_DIR+"/EDA_data"
 
 # output dirs
 REPORT_DIR = "../reports"
