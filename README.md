@@ -5,28 +5,58 @@ breast_cancer_analytics
 
 # 環境構築
 共同で研究するときには、それぞれの環境で使用しているライブラリ等のバージョンに起因するエラーを防ぐために開発環境を統一することが推奨されます。 
-PythonやAnacondaのようなデータ解析ツールは2022年現在、DS界隈の標準と言っても過言ではありません。でもMATLABやExcel、RにJuliaと様々な物があるので過言かもしれません。  
-何にせよ、今回の分析では201X年以降入学された皆さんが講義で使い慣れたであろうPythonをベースとしたパッケージであるAnacondaを中心に扱っていきます。  
-Anacondaではいわゆる**仮想環境**を作成することができ、この仮想環境を作るための設計図である*hogehoge*.yml（hogehogeは任意のファイル名です）をAnaconda環境で読み込むことでOSやハードウェアの垣根を超えて同じ環境を作成することができます。  
+PythonやAnacondaのようなデータ解析ツールは2022年現在、DS界隈の標準と言っても過言ではありません。
+でもMATLABやExcel、RにJuliaと様々な物があるので過言かもしれません。  
+何にせよ、今回の分析では201X年以降入学された皆さんが講義で使い慣れたであろう
+PythonをベースとしたパッケージであるAnacondaを中心に扱っていきます。  
+Anacondaではいわゆる**仮想環境**を作成することができ、
+この仮想環境を作るための設計図である*hogehoge*.yml（hogehogeは任意のファイル名です）を
+Anaconda環境で読み込むことで、OSやハードウェアの垣根を超えて同じ環境を作成することができます。  
 当リポジトリをcloneしたらまずは仮想環境を構築してみましょう。  
-尚、PyCaretというライブラリを利用するに当たり、M1 Macを利用している方は依存ライブラリのインストールにエラーが発生します。
-PyCaretを利用する際は別途pycaret_requirement.txtからPyCaretの依存ライブラリを**pip install**してください。
 
 ## 仮想環境構築注意点
 ### データ分析環境
 - Anaconda仮想環境のファイル
-    - breast_cancer_analytics.yml  
+    - conda_env@mac.yml  
+    - conda_env@windows.yml  
+    - conda_env@ubuntu.yml  
 
 ### モデル構築環境
-- pycaretインストール（M1 Macでは、conda経由でpycaretライブラリのインストールにエラーが発生します。以下のファイルをもとにpip経由でインストールしてください）
-    - pycaret_requirements.txt
-### コマンド
-- 仮想環境インストール
-    - conda env create -n *任意の仮想環境名* -f *仮想環境ファイル名*.yml  
-    例) conda env create -n breast-cancer-analytics -f breast_cancer_analytics.yml
-- 仮想環境エクスポート
-    - conda env export --no-builds > *hogehoge*.yml  
-    例) conda env export --no-builds > breast_cancer_analytics.yml
+環境エクスポート
+conda env export conda_env@**os**
+
+
+
+
+要docker-desktop  
+
+初回のdocker+anaconda環境構築  
+```
+# docker上でanaconda環境(Linux OS)を作成
+docker pull continuumio/anaconda3  
+docker run --name breast_cancer_analytics --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it --rm continuumio/anaconda3:latest  
+
+# Linux環境を整える
+cd breast_cancer_analytics
+apt update && apt upgrade -y && apt autoremove
+apt install make
+make create_conda_env
+
+# jupyter起動
+conda activate breast-cancer-analytics
+jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
+```
+
+2回目以降
+docker desktopなどでdocker container起動してからの手順。  
+```
+# dockerコンテナに入る
+docker exec -it container_ID /bin/sh
+
+# jupyter起動
+conda activate breast-cancer-analytics
+jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
+```
 
 # プロジェクト構成
 プロジェクトの構成をディレクトリで個人の思うままに管理すると不満に思う人も出てくるでしょう。

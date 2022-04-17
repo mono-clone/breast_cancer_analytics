@@ -80,7 +80,13 @@ test_environment:
 # PROJECT RULES                                                                 #
 #################################################################################
 
+create_conda_env:
+	conda update -n base -c defaults conda -y
+	conda env create -f conda_env.yml
 
+activate_conda:
+	conda activate breast-cancer-analytics
+	jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
 
 #################################################################################
 # Self Documenting Commands                                                     #
