@@ -21,8 +21,11 @@ INTERIM_PICKLE_EDA_DIR=INTERIM_PICKLE_DIR+"/EDA_data"
 
 # output dirs
 REPORT_DIR = "../reports"
+# images
 FIGURES_DIR = REPORT_DIR + "/figures"
 SEABORN_DIR = FIGURES_DIR + "/sns"
+TREE_DIR=FIGURES_DIR+'/decision_tree'
+# reports
 PANDAS_PROFILING_REPORT_DIR = REPORT_DIR + "/pandas-profiling_report"
 SWEETVIZ_REPORT_DIR = REPORT_DIR + "/sweetviz_report"
 
