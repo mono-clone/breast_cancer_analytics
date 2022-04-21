@@ -16,47 +16,56 @@ Anaconda環境で読み込むことで、OSやハードウェアの垣根を超�
 
 ## 仮想環境構築注意点
 ### データ分析環境
+本来であればOSを問わず環境を構築したかったのですが、方法が見当たらなかったので、
+各OSに対応したanacondaの環境ymlファイルを用いて環境を共有することにします。  
+後日シェルスクリプトでの実行に変更するかも。
+s
 - Anaconda仮想環境のファイル
     - conda_env@mac.yml  
     - conda_env@windows.yml  
     - conda_env@ubuntu.yml  
 
 ### モデル構築環境
+
+環境インポート 
+- conda create env -n **env_name** -f conda_env@**os**  
+
 環境エクスポート
-conda env export conda_env@**os**
+- conda env export conda_env@**os**
 
+<details>
+    <summary>dockerでの環境構築方法s（現在停止中）</summary>
+        要docker-desktop  
 
+        初回のdocker+anaconda環境構築  
+        ```
+        # docker上でanaconda環境(Linux OS)を作成
+        docker pull continuumio/anaconda3  
+        docker run --name breast_cancer_analytics --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it --rm continuumio/anaconda3:latest  
 
+        # Linux環境を整える
+        cd breast_cancer_analytics
+        apt update && apt upgrade -y && apt autoremove
+        apt install make
+        make create_conda_env
 
-要docker-desktop  
+        # jupyter起動
+        conda activate breast-cancer-analytics
+        jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
+        ```
 
-初回のdocker+anaconda環境構築  
-```
-# docker上でanaconda環境(Linux OS)を作成
-docker pull continuumio/anaconda3  
-docker run --name breast_cancer_analytics --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it --rm continuumio/anaconda3:latest  
+        2回目以降
+        docker desktopなどでdocker container起動してからの手順。  
+        ```
+        # dockerコンテナに入る
+        docker exec -it container_ID /bin/sh
 
-# Linux環境を整える
-cd breast_cancer_analytics
-apt update && apt upgrade -y && apt autoremove
-apt install make
-make create_conda_env
+        # jupyter起動
+        conda activate breast-cancer-analytics
+        jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
+        ```
+</details>
 
-# jupyter起動
-conda activate breast-cancer-analytics
-jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
-```
-
-2回目以降
-docker desktopなどでdocker container起動してからの手順。  
-```
-# dockerコンテナに入る
-docker exec -it container_ID /bin/sh
-
-# jupyter起動
-conda activate breast-cancer-analytics
-jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
-```
 
 # プロジェクト構成
 プロジェクトの構成をディレクトリで個人の思うままに管理すると不満に思う人も出てくるでしょう。
