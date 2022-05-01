@@ -29,3 +29,8 @@ TREE_DIR = FIGURES_DIR + "/decision_tree"
 # reports
 PANDAS_PROFILING_REPORT_DIR = REPORT_DIR + "/pandas-profiling_report"
 SWEETVIZ_REPORT_DIR = REPORT_DIR + "/sweetviz_report"
+
+
+
+# SEED
+SEED=100
