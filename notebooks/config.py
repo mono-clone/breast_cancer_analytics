@@ -26,7 +26,7 @@ MODELS_NOTEBOOK=MODELS+"/notebooks"
 
 # analysoutput dirs
 REPORT_DIR = "../reports"
-# images
+# imagesvbcvb 
 FIGURES_DIR = REPORT_DIR + "/figures"
 SEABORN_DIR = FIGURES_DIR + "/sns"
 TREE_DIR = FIGURES_DIR + "/decision_tree"
