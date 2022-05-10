@@ -20,9 +20,13 @@ INTERIM_PICKLE_DIR = INTERIM_DIR + "/pickle_data"
 INTERIM_PICKLE_EDA_DIR = INTERIM_PICKLE_DIR + "/EDA_data"
 INTERIM_PICKLE_PREPROCESSED_DIR = INTERIM_PICKLE_DIR + "/preprocessed"
 
-# output dirs
+# save models dir
+MODELS="../models"
+MODELS_NOTEBOOK=MODELS+"/notebooks"
+
+# analysoutput dirs
 REPORT_DIR = "../reports"
-# images
+# imagesvbcvb 
 FIGURES_DIR = REPORT_DIR + "/figures"
 SEABORN_DIR = FIGURES_DIR + "/sns"
 TREE_DIR = FIGURES_DIR + "/decision_tree"
