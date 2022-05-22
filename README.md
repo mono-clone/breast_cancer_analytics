@@ -32,10 +32,10 @@ M1 Macとwindows間でうまくいきませんでした。構築の際にplatfor
 ### モデル構築環境
 
 環境インポート 
-- conda create env -n **env_name** -f conda_env@**os** --no-builds  
+- conda create env -n **env_name** -f conda_env@**os**  
 
 環境エクスポート
-- conda env export conda_env@**os**
+- conda env export > conda_env@**os** --no-builds 
 
 <details>
     <summary>dockerでの環境構築方法s（現在停止中）</summary>
