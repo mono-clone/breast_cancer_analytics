@@ -26,14 +26,23 @@ MODELS_NOTEBOOK=MODELS+"/notebooks"
 
 # analysoutput dirs
 REPORT_DIR = "../reports"
-# imagesvbcvb 
+# image and plot save dirs
 FIGURES_DIR = REPORT_DIR + "/figures"
-SEABORN_DIR = FIGURES_DIR + "/sns"
-TREE_DIR = FIGURES_DIR + "/decision_tree"
+   # SEABORN_DIR = FIGURES_DIR + "/EDA"9
+TREE_DIR = FIGURES_DIR + "/decision_tree"# need to modify name
+# 予後の予測タスクの保存先
+FIGURES_PROGNOSIS_SURVIVED_DIR = FIGURES_DIR+'/prognosis_survived'
+# 2値分類タスク
+FIGURES_PROGNOSIS_SURVIVED_BCM_DIR=FIGURES_PROGNOSIS_SURVIVED_DIR+'/create_bcm_models'
+# オーバーサンプリングの実施結果の保存先
+FIGURES_PROGNOSIS_SURVIVED_BCM_OVERSAMPLING_DIR=FIGURES_PROGNOSIS_SURVIVED_BCM_DIR+'/over_sampling'
+# 手法：SMOTE
+FIGURES_PROGNOSIS_SURVIVED_BCM_OVERSAMPLING_SMOTE_DIR=FIGURES_PROGNOSIS_SURVIVED_BCM_OVERSAMPLING_DIR+'/SMOTE'
+
+
 # reports
 PANDAS_PROFILING_REPORT_DIR = REPORT_DIR + "/pandas-profiling_report"
 SWEETVIZ_REPORT_DIR = REPORT_DIR + "/sweetviz_report"
-
 
 
 # SEED
