@@ -9,8 +9,8 @@
 #
 
 # latest Ubuntu version
-FROM ubuntu:latest  
-#FROM --platform=linux/amd64 ubuntu:latest
+#FROM ubuntu:latest  
+FROM --platform=linux/amd64 ubuntu:latest
 
 # add the bash script
 ADD install.sh /
