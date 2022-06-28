@@ -60,9 +60,6 @@ mkdir /root/.jupyter/custom
 wget http://hilpisch.com/custom.css
 mv custom.css /root/.jupyter/custom
 jupyter notebook --generate-config
-# mv /root/jupyter_notebook_config.py /root/.jupyter/
-mv /root/mycert.pem /root/.jupyter
-mv /root/mykey.key /root/.jupyter
 mkdir /root/notebook
 cd /root/notebook
 
