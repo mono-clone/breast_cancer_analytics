@@ -1,89 +1,61 @@
-breast_cancer_analytics
-==============================
+# breast_cancer_analytics
 
 修士論文共同研究
 
-言語：Python Version3.8系
+言語：Python Version3.8 系
 
 # 環境構築
-共同で研究するときには、それぞれの環境で使用しているライブラリ等のバージョンに起因するエラーを防ぐために開発環境を統一することが推奨されます。 
-PythonやAnacondaのようなデータ解析ツールは2022年現在、DS界隈の標準と言っても過言ではありません。
-でもMATLABやExcel、RにJuliaと様々な物があるので過言かもしれません。  
-何にせよ、今回の分析では201X年以降入学された皆さんが講義で使い慣れたであろう
-PythonをベースとしたパッケージであるAnacondaを中心に扱っていきます。  
-Anacondaではいわゆる**仮想環境**を作成することができ、
-この仮想環境を作るための設計図である*hogehoge*.yml（hogehogeは任意のファイル名です）を
-Anaconda環境で読み込むことで、OSやハードウェアの垣根を超えて同じ環境を作成することができます。  
-当リポジトリをcloneしたらまずは仮想環境を構築してみましょう。  
+
+共同で研究するときには、それぞれの環境で使用しているライブラリ等のバージョンに起因するエラーを防ぐために開発環境を統一することが推奨されます。
+Python や Anaconda のようなデータ解析ツールは 2022 年現在、DS 界隈の標準と言っても過言ではありません
+（MATLAB や Excel、R に Julia と様々な物があるのでやっぱり過言かもしれません）。  
+何にせよ、今回の分析では 201X 年以降入学された皆さんが講義で使い慣れたであろう
+Python をベースとしたパッケージである Anaconda を中心に扱っていきます。  
+Anaconda ではいわゆる**仮想環境**を作成することができ、
+この仮想環境を作るための設計図である*hogehoge*.yml（hogehoge は任意のファイル名です）を
+Anaconda 環境で読み込むことで、OS やハードウェアの垣根を超えて同じ環境を作成することができます。  
+また、pip と比較してパッケージ管理が容易であり、不要になったライブラリは*conda uninstall*にて依存ライブラリ共々綺麗に消すことができます。
 
 ## 仮想環境構築注意点
+
 ### データ分析環境
-本来であればOSを問わず環境を構築したかったのですが、方法が見当たらなかった(Dockerなども
-M1 Macとwindows間でうまくいきませんでした。構築の際にplatformを指定しなかったことが原因の可能性あり)ので、
-各OSに対応したanacondaの環境ymlファイルを用いて環境を共有することにします。  
-後日シェルスクリプトもしくはmakefileでの実行に変更するかも。  
 
-- Anaconda仮想環境のファイル
-一旦、以下の形で出力し、OSに応じて仮想環境を構築することにします。  
-    - conda_env@mac.yml  
-    - conda_env@windows.yml  
-    - conda_env@ubuntu.yml  
+本来であれば OS に依存しない環境を構築したかったのですが、方法が見当たらなかった(Docker なども
+M1 Mac と windows 間でうまくいきませんでした。構築の際に platform を指定しなかったことが原因の可能性あり)ので、
+各 OS に対応した anaconda の環境 yml ファイルを用いて環境を共有することにします。
 
-### モデル構築環境
+#### Anaconda 仮想環境のファイルの種類
 
-#### anaconda
-**環境インポート**
+以下の形で出力し、OS に応じて仮想環境を構築することにします。
+ライブラリを追加した際にはエクスポートコマンドを実行し、ファイルの更新をお願いします。
+
+- conda_env@mac.yml
+- conda_env@windows.yml
+- conda_env@ubuntu.yml
+
+#### 仮想環境インポート・エクスポートコマンド
+
+##### 環境インポート
+
 ```
-conda create env -n **env_name** -f conda_env@**os**  
-```
-
-**環境エクスポート**
-```
-conda env export > conda_env@**os** --no-builds 
+conda create env -n **env_name** -f conda_env@**os**
 ```
 
-#### git
-**ブランチ（自身の開発領域）の概念**
-共同開発の際は、様々な人が開発をするため、その内容が様々に派生していきます。  
-１プロジェクトを全員で共有して同時に開発を進めると、旧バージョンで存在した機能が補修中となったために該当機能に依存した他の機能が停止してしまうことも起こりえます。
-バグがあった場合、全員の進捗を戻す必要もあるでしょう。
-そのため、個々人の開発領域を分けることで、上記の問題点を改善・低減することが重要になります。
-*git branch*コマンドはこの開発領域の区分けを実現する機能です。  
-**かならず自身のbranch（開発領域）を設定してください。**  
-**ブランチ（自身の開発領域）の作成**
-```
-git branch <branch_name>
-```
-**ブランチの移動**
-```
-git git checkout <branch_name>
-```
+##### 環境エクスポート
 
-**変更の送信**   
-**一連の流れ** 
 ```
-git add .
-
-git commit -m '変更内容を記入してください'
-
-git push origin <branch_name>
+conda env export > conda_env@**os** --no-builds
 ```
-
-**変更の反映**   
-```
-git pull origin <branch_name>
-```
-
 
 <details>
-    <summary>dockerでの環境構築方法s（現在停止中）</summary>
-        要docker-desktop  
+    <summary>dockerでの環境構築方法（現在停止中）</summary>
+        要docker-desktop
 
-        初回のdocker+anaconda環境構築  
+        初回のdocker+anaconda環境構築
         ```
         # docker上でanaconda環境(Linux OS)を作成
-        docker pull continuumio/anaconda3  
-        docker run --name breast_cancer_analytics --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it --rm continuumio/anaconda3:latest  
+        docker pull continuumio/anaconda3
+        docker run --name breast_cancer_analytics --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it --rm continuumio/anaconda3:latest
 
         # Linux環境を整える
         cd breast_cancer_analytics
@@ -97,7 +69,7 @@ git pull origin <branch_name>
         ```
 
         2回目以降
-        docker desktopなどでdocker container起動してからの手順。  
+        docker desktopなどでdocker container起動してからの手順。
         ```
         # dockerコンテナに入る
         docker exec -it container_ID /bin/sh
@@ -106,67 +78,154 @@ git pull origin <branch_name>
         conda activate breast-cancer-analytics
         jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
         ```
+
 </details>
 
-### 整形のためのライブラリ
+# git・github によるソースコード管理
+
+複数人が携わる開発環境では、それぞれの開発部分が重複したり、バラバラに開発するせいで収集がつかなくなることがあります。  
+これは事前にルールを決めてもうっかり忘れが発生したり、ルールの管理・認知コストがかかってしまい、完全になくすことはできません。  
+そこで、ソースコードを管理する上でスタンダードなツールである git・github を使用します。
+
+## 理解する必要のある概念
+
+以下のコマンドや概念については理解してください。  
+git や github の基本的な概念になります。　　
+Google で調べれば出てきます。
+
+### コマンド
+
+- git add .
+- git commit -m 'comment'
+- git push origin _your remote branch_
+- git pull origin main
+
+### 概念
+
+- local と remote
+- branch
+- merge と conflict
+
+## コマンドテンプレート
+
+### github へ変更を送信するコマンド
+
+```
+git add .
+
+git commit -m 'comment'
+
+git push origin <remote_branch_name>
+```
+
+### remote の内容を local に反映するコマンド
+
+```
+git pull origin <remote_branch_name>
+```
+
+## 各種概念
+
+### branch（自身の開発領域）の概念
+
+共同開発の際は、様々な人が開発をするため、その内容が様々に派生していきます。  
+１プロジェクトを全員で共有して同時に開発を進めると、旧バージョンで存在した機能が補修中となったために該当機能に依存した他の機能が停止してしまうことも起こりえます。
+バグがあった場合、全員の進捗を戻す必要もあるでしょう。
+そのため、個々人の開発領域を分けることで、上記の問題点を改善・低減することが重要になります。
+*git branch*コマンドはこの開発領域の区分けを実現する機能です。  
+**かならず自身の branch（開発領域）を設定してください。**
+
+#### ブランチに関するコマンド
+
+##### ブランチの作成
+
+```
+git branch <branch_name>
+```
+
+#### ブランチの移動
+
+```
+git git checkout <branch_name>
+```
+
+# ノートブック規則
+
+ノートブックで解析をすすめる上での規則を以下に記します。  
+視認性向上のため、なるべく厳守してください。  
+また、ノートブックにも定義した内容や、処理内容を、少なくともメモなどとして残してください。
+
+## 整形のためのライブラリ
+
+他の人がコードを参考にしたり、レビューするときに、閲覧者の理解の妨げにならないようコードを整形することが求められます。
+この時、個人個人でフォーマッタ方法が異なると意味がありません。  
+そこで今回は以下のツールを用いてコードの整形を実施します。  
+拡張機能を利用し、保存時に自動で整形されるようにすると良いでしょう。
+
 - フォーマッタ: black
 - コードチェッカー: flake8
 
-### ノートブック規則
-ノートブックで解析をすすめる上での規則を以下に記します。  
-視認性向上のため、なるべく厳守してください。  
-また、ノートブックにも定義した内容や、処理内容を、少なくともメモなどとして残してください。  
+## 基本命名規則
 
-#### 基本命名規則  
 コードを記述する際、様々な対象を命名するが、その名付けに規則を設けることでチーム内での理解が促進されます。  
-[PEP8](https://pep8-ja.readthedocs.io/ja/latest/)に則ったルールであるので、他の場面でも意識することを推奨します。   
+[PEP8](https://pep8-ja.readthedocs.io/ja/latest/)に則ったルールであるので、他の場面でも意識することを推奨します。  
 参考: https://qiita.com/naomi7325/items/4eb1d2a40277361e898b
 
-| 対象       | ルール                                | 例            | 
-| ---------- | ------------------------------------- | ------------- | 
-| パッケージ | 全小文字。アンダースコア（_）非推奨。 | numpy, pandas | 
-| モジュール | 全小文字。アンダースコア可。          | sys, os       | 
-| クラス     | 最初大文字＋大文字区切り              | MyClass       | 
-| 例外       | 最初大文字＋大文字区切り              | MyError       | 
-| 型変数     | 最初大文字＋大文字区切り              | MyType        | 
-| メソッド   | 全小文字＋アンダースコア区切り        | my_method     | 
-| 関数       | 全小文字＋アンダースコア区切り        | my_function   | 
-| 変数       | 全小文字＋アンダースコア区切り        | my_variable   | 
-| 定数       | 全大文字＋アンダースコア区切り        | MY_CONST      | 
+| 対象       | ルール                                 | 例            |
+| ---------- | -------------------------------------- | ------------- |
+| パッケージ | 全小文字。アンダースコア（\_）非推奨。 | numpy, pandas |
+| モジュール | 全小文字。アンダースコア可。           | sys, os       |
+| クラス     | 最初大文字＋大文字区切り               | MyClass       |
+| 例外       | 最初大文字＋大文字区切り               | MyError       |
+| 型変数     | 最初大文字＋大文字区切り               | MyType        |
+| メソッド   | 全小文字＋アンダースコア区切り         | my_method     |
+| 関数       | 全小文字＋アンダースコア区切り         | my_function   |
+| 変数       | 全小文字＋アンダースコア区切り         | my_variable   |
+| 定数       | 全大文字＋アンダースコア区切り         | MY_CONST      |
 
-#### ノートブックファイル名規則
-jupyter notebookは全て./notebooks以下に置くこと。  
-**命名規則**  
+## ノートブックファイル名規則
+
+jupyter notebook は全て./notebooks 以下に置くこと。
+
+### 命名規則
+
 基本的な命名規則は以下だが、臨機応変に変更して良い。  
 （カテゴリ番号）.（作成番号）\-（処理カテゴリ名）\_（処理具体内容・対象）.ipynb  
-例. 0.0-download_data.ipynb 
+例. 0.0-download_data.ipynb
 
-#### ノートブック内セル規則
-- 関数名  
+### ノートブック内セル規則
 
-- 関数内容  
-内容共有・意図通りの関数共通使用のために、関数アノテーションを実施すること。  
-例．  
+#### 関数名
+
+関数が何を行うのかがわかるような名前をつけてください。  
+また、基本命名規則に従い、全て小文字+アンダースコア区切りとしてください。
+
+#### 関数内容
+
+入出力がわかる関数共通使用のために、関数アノテーションを実施してください。  
+また、その関数が何を行うのか簡単なコメントを残すようにしてください。　　
+例．
+
 ```
 def function_compare(val1: int, val2: int) -> bool:
     return val1 > val2
 ```
 
 # プロジェクト構成
+
 プロジェクトの構成をディレクトリで個人の思うままに管理すると不満に思う人も出てくるでしょう。
-しかし、1人1人の思想を反映するとディレクトリ構成を決めるだけでも大変です。
+しかし、1 人 1 人の思想を反映するとディレクトリ構成を決めるだけでも大変です。
 後々必要に迫られディレクトリ構成の変更を迫られたりするかもしれません。  
 そこで、広く使用されている構成を真似るために**Cookiecutter**というライブラリを用いました（https://github.com/cookiecutter/cookiecutter）。  
-CookiecutterはOSに依存しないクロスプラットフォームで使用できるパッケージ構成管理テンプレートを展開するPythonライブラリです。
-PythonだけでなくJacaScriptやRubyなど様々な言語で使用できますが、詳しくは公式のドキュメントを読んでください。
-兎にも角にもCookiecutterの形式に則り、今回の分析を実施していきます。
-下記のツリー状の図はCookiecutterで展開したディレクトリに配置するべきファイル等の説明です。
+Cookiecutter は OS に依存しないクロスプラットフォームで使用できるパッケージ構成管理テンプレートを展開する Python ライブラリです。
+Python だけでなく JacaScript や Ruby など様々な言語で使用できますが、詳しくは公式のドキュメントを読んでください。
+兎にも角にも Cookiecutter の形式に則り、今回の分析を実施していきます。
+下記のツリー状の図は Cookiecutter で展開したディレクトリに配置するべきファイル等の説明です。
 これらを参考に、ファイル・ディレクトリを操作する際は注意してください。
 
 ---
 
-Project Organization
-------------
+## Project Organization
 
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
@@ -213,7 +272,6 @@ Project Organization
     │
     └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
 
-
---------
+---
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>

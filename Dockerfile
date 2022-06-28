@@ -9,7 +9,7 @@
 #
 
 # latest Ubuntu version
-#FROM ubuntu:latest  
+# FROM ubuntu:latest  
 FROM --platform=linux/amd64 ubuntu:latest
 
 # add the bash script
@@ -20,4 +20,5 @@ RUN chmod u+x /install.sh
 RUN /install.sh
 # prepend the new path
 ENV PATH /root/miniconda3/bin:$PATH
-
+# install pip package
+RUN pip3 install --upgrade pip
