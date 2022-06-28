@@ -52,5 +52,8 @@ PANDAS_PROFILING_REPORT_DIR = REPORT_DIR + "/pandas-profiling_report"
 SWEETVIZ_REPORT_DIR = REPORT_DIR + "/sweetviz_report"
 
 
+# URL
+URL_cBioPortal='https://cbioportal-datahub.s3.amazonaws.com/brca_metabric.tar.gz'
+
 # SEED
 SEED=100

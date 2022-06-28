@@ -9,10 +9,8 @@
 #
 
 # latest Ubuntu version
-FROM ubuntu:latest  
-
-# information about maintainer
-MAINTAINER yves
+#FROM ubuntu:latest  
+FROM --platform=linux/amd64 ubuntu:latest
 
 # add the bash script
 ADD install.sh /
@@ -23,5 +21,3 @@ RUN /install.sh
 # prepend the new path
 ENV PATH /root/miniconda3/bin:$PATH
 
-# execute IPython when container is run
-CMD ["ipython"]
