@@ -39,12 +39,14 @@ conda install -y pandas       #  data analysis package
 conda install -y matplotlib   # standard plotting library
 conda install -y seaborn      # statistical plotting library
 conda install -y scikit-learn # machine learning library
-conda install -c conda-forge tqdm
-conda install -c conda-forge python-graphviz
-conda install -c conda-forge pydotplus
-conda install -c conda-forge six
-conda install -c conda-forge sweetviz
-conda install -c conda-forge dtale
+conda install -c conda-forge tqdm -y
+conda install -c conda-forge python-graphviz -y
+conda install -c conda-forge pydotplus -y
+conda install -c conda-forge six -y
+conda install -c conda-forge sweetviz -y
+conda install -c conda-forge imbalanced-learn -y
+conda install -c conda-forge black -y
+conda install -c anaconda flake8 -y
 
 pip install --upgrade pip # upgrading the package manager
 pip install seaborn-analyzer
