@@ -1,3 +1,13 @@
+# 機械学習モデル
+from sklearn.linear_model import LogisticRegression  # ロジスティック回帰
+from sklearn.neighbors import KNeighborsClassifier  # K近傍法
+from sklearn.svm import SVC  # サポートベクターマシン
+from sklearn.tree import DecisionTreeClassifier, export_graphviz  # 決定木
+from sklearn.ensemble import RandomForestClassifier  # ランダムフォレスト
+from sklearn.ensemble import AdaBoostClassifier  # AdaBoost
+from sklearn.naive_bayes import GaussianNB  # ナイーブ・ベイズ
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA  # 二次判別分析
+
 # DIRs
 # data dirs
 DATA_DIR = "../data"
@@ -64,3 +74,35 @@ URL_cBioPortal='https://cbioportal-datahub.s3.amazonaws.com/brca_metabric.tar.gz
 
 # SEED
 SEED=100
+
+
+# 比較する2値分類器の設定
+bcm_names = [
+    "Logistic Regression",
+    "Nearest Neighbors",
+    "Linear SVM",
+    "Polynomial SVM",
+    "RBF SVM",
+    "Sigmoid SVM",
+    "Decision Tree",
+    "Random Forest",
+    "AdaBoost",
+    "Naive Bayes",
+    # "Linear Discriminant Analysis", # predictメソッドに対応していない
+    "Quadratic Discriminant Analysis",
+]
+
+classifiers = [
+    LogisticRegression(max_iter=2000, random_state=SEED),
+    KNeighborsClassifier(),
+    SVC(kernel="linear", random_state=SEED),
+    SVC(kernel="poly", random_state=SEED),
+    SVC(kernel="rbf", random_state=SEED),
+    SVC(kernel="sigmoid", random_state=SEED),
+    DecisionTreeClassifier(random_state=SEED),
+    RandomForestClassifier(random_state=SEED),
+    AdaBoostClassifier(random_state=SEED),
+    GaussianNB(),
+    QDA(),
+]
+
