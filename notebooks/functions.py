@@ -10,6 +10,7 @@ import graphviz
 import pydotplus
 from IPython.display import Image
 from six import StringIO
+
 # データセット分割
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
@@ -39,6 +40,7 @@ import warnings
 
 from config import SEED, bcm_names, classifiers
 
+
 def make_dir(dir_name: str):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
@@ -50,6 +52,7 @@ def fix_seed(seed: int):
     random.seed(seed)
     # Numpy
     np.random.seed(seed)
+
 
 def check(df):
     col_list = df.columns.values  # 列名を取得
@@ -116,43 +119,36 @@ def plot_confusion_matrix(
         tn, fp, fn, tp = cm.ravel()
         print("tn: ", tn, "\nfp: ", fp, "\nfn:", fn, "\ntp:", tp)
         show_scores(y_test, y_pred)
-        
-        
+
+
 # 標準化を行う関数
 def transform_std(X_train: pd.DataFrame(), X_test: pd.DataFrame() = None):
     std = StandardScaler()
     std.fit(X_train)
     X_train_std = pd.DataFrame(
-        std.transform(X_train),
-        index=X_train.index,
-        columns=X_train.columns
+        std.transform(X_train), index=X_train.index, columns=X_train.columns
     )
     if X_test is None:
         return X_train_std
     X_test_std = pd.DataFrame(
-        std.transform(X_test),
-        index=X_test.index,
-        columns=X_test.columns
+        std.transform(X_test), index=X_test.index, columns=X_test.columns
     )
     return X_train_std, X_test_std
 
 
 # 正規化を行う関数
 def transform_norm(
-    X_train: pd.DataFrame(), X_test: pd.DataFrame() = None) -> pd.DataFrame():
+    X_train: pd.DataFrame(), X_test: pd.DataFrame() = None
+) -> pd.DataFrame():
     mm = MinMaxScaler()
     mm.fit(X_train)
     X_train_norm = pd.DataFrame(
-        mm.transform(X_train),
-        index=X_train.index,
-        columns=X_train.columns
+        mm.transform(X_train), index=X_train.index, columns=X_train.columns
     )
     if X_test is None:
         return X_train_norm
     X_test_norm = pd.DataFrame(
-        mm.transform(X_test),
-        index=X_test.index,
-        columns=X_test.columns
+        mm.transform(X_test), index=X_test.index, columns=X_test.columns
     )
     return X_train_norm, X_test_norm
 
@@ -177,7 +173,7 @@ def feature_selection(
     df_result["score"] = selector.scores_
     df_result["pvalue"] = selector.pvalues_
     return df_result
-        
+
 
 def plot_learning_curve(
     X: pd.DataFrame(),
@@ -242,6 +238,7 @@ def plot_learning_curve(
 
     plt.show()
 
+
 def compare_bcms(
     X: pd.DataFrame(),
     y: pd.Series(),
@@ -254,8 +251,8 @@ def compare_bcms(
     # 標準化・正規化の実行の有無、及びそれを適用するcolumns
     normalization: bool = False,
     standardization: bool = False,
-    converted_columns:list()=None,
-    plot_cfmatrix: bool=False,
+    converted_columns: list() = None,
+    plot_cfmatrix: bool = False,
 ):
     warnings.filterwarnings("ignore")  # lrで警告が出て視認性が悪いので、いったん非表示
     result = []
@@ -271,15 +268,25 @@ def compare_bcms(
             # 標準化の処理
             if standardization:
                 if converted_columns:
-                    X_train[converted_columns], X_test[converted_columns] = transform_std(X_train[converted_columns], X_test[converted_columns])
+                    (
+                        X_train[converted_columns],
+                        X_test[converted_columns],
+                    ) = transform_std(
+                        X_train[converted_columns], X_test[converted_columns]
+                    )
                 else:
-                    X_train, X_test=transform_std(X_train, X_test)
+                    X_train, X_test = transform_std(X_train, X_test)
             # 正規化の処理
             if normalization:
                 if converted_columns:
-                    X_train[converted_columns], X_test[converted_columns] = transform_norm(X_train[converted_columns], X_test[converted_columns])
+                    (
+                        X_train[converted_columns],
+                        X_test[converted_columns],
+                    ) = transform_norm(
+                        X_train[converted_columns], X_test[converted_columns]
+                    )
                 else:
-                    X_train, X_test=transform_std(X_train, X_test)
+                    X_train, X_test = transform_std(X_train, X_test)
             # オーバーサンプリング（trainデータのみに適用）
             if over_sampling_class:
                 X_train, y_train = over_sampling_class.fit_resample(X_train, y_train)
