@@ -38,21 +38,18 @@ conda install -y pytables     # wrapper for HDF5 binary storage
 conda install -y pandas       #  data analysis package
 conda install -y matplotlib   # standard plotting library
 conda install -y seaborn      # statistical plotting library
-conda install -y quandl       # wrapper for Quandl data API
 conda install -y scikit-learn # machine learning library
-conda install -y openpyxl     # package for Excel interaction
-conda install -y xlrd xlwt    # packages for Excel interaction
-conda install -y pyyaml       # package to manage yaml files
+conda install -c conda-forge tqdm -y
+conda install -c conda-forge python-graphviz -y
+conda install -c conda-forge pydotplus -y
+conda install -c conda-forge six -y
+conda install -c conda-forge sweetviz -y
+conda install -c conda-forge imbalanced-learn -y
+conda install -c conda-forge black -y
+conda install -c anaconda flake8 -y
 
 pip install --upgrade pip # upgrading the package manager
-pip install q             # logging and debugging
-pip install plotly        # interactive D3.js plots
-pip install cufflinks     # combining plotly with pandas
-pip install tensorflow    # deep learning library
-pip install keras         # deep learning library
-pip install eikon         # Python wrapper for the Refinitiv Eikon Data API
-# Python wrapper for Oanda API
-pip install git+git://github.com/yhilpisch/tpqoa
+pip install seaborn-analyzer
 
 # COPYING FILES AND CREATING DIRECTORIES
 mkdir /root/.jupyter
@@ -62,6 +59,3 @@ mv custom.css /root/.jupyter/custom
 jupyter notebook --generate-config
 mkdir /root/notebook
 cd /root/notebook
-
-# STARTING JUPYTER LAB
-jupyter lab &

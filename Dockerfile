@@ -9,7 +9,7 @@
 #
 
 # latest Ubuntu version
-#FROM ubuntu:latest  
+# FROM ubuntu:latest  
 FROM --platform=linux/amd64 ubuntu:latest
 
 # add the bash script
@@ -17,7 +17,14 @@ ADD install.sh /
 # change rights for the script
 RUN chmod u+x /install.sh
 # run the bash script
+# took 50 minutes......(using m1 MacBookAir, 16GB RAM)
 RUN /install.sh
 # prepend the new path
 ENV PATH /root/miniconda3/bin:$PATH
 
+# update anaconda 
+RUN conda update -n base conda -y
+# update conda packages
+RUN conda update --all -y
+# install pip package
+RUN pip3 install --upgrade pip
