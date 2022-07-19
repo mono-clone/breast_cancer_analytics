@@ -85,8 +85,6 @@ def check(df):
     ]  # データフレームの列名指定
     # unique_countsの中身確認のために横幅拡張
     d = dict(selector=".col8", props=[("min-width", "200px")])  # name
-    display(df.style.set_table_styles([d]))
-    display(df)
     return df.style.set_table_styles([d])
 
 
@@ -265,8 +263,10 @@ def compare_bcms(
             X_train, X_test = X.iloc[train_index], X.iloc[test_index]
             # print("initsize: ", X_train.shape)
             y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+
             # 標準化の処理
             if standardization:
+                # 特定のカラムへの適用
                 if converted_columns:
                     (
                         X_train[converted_columns],
@@ -274,10 +274,13 @@ def compare_bcms(
                     ) = transform_std(
                         X_train[converted_columns], X_test[converted_columns]
                     )
+                # df全体への適用
                 else:
                     X_train, X_test = transform_std(X_train, X_test)
+            
             # 正規化の処理
             if normalization:
+                # 特定のカラムへの適用
                 if converted_columns:
                     (
                         X_train[converted_columns],
@@ -285,9 +288,11 @@ def compare_bcms(
                     ) = transform_norm(
                         X_train[converted_columns], X_test[converted_columns]
                     )
+                # df全体への適用
                 else:
                     X_train, X_test = transform_std(X_train, X_test)
-            # オーバーサンプリング（trainデータのみに適用）
+            
+            # オーバーサンプリング（trainデータのみに適用し、testデータには適用しない）
             if over_sampling_class:
                 X_train, y_train = over_sampling_class.fit_resample(X_train, y_train)
             # print("over sampling size: ", X_train.shape)
@@ -305,6 +310,7 @@ def compare_bcms(
         # 混合行列の表示
         if plot_cfmatrix:
             plot_confusion_matrix(y_test, y_pred)
+            
 
     # 表示設定
     df_result = pd.DataFrame(
