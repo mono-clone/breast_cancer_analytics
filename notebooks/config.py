@@ -1,4 +1,4 @@
-# 機械学習モデル
+# 機械学習モデルインスタンスの定義のためのインポート
 from sklearn.linear_model import LogisticRegression  # ロジスティック回帰
 from sklearn.neighbors import KNeighborsClassifier  # K近傍法
 from sklearn.svm import SVC  # サポートベクターマシン
@@ -8,74 +8,145 @@ from sklearn.ensemble import AdaBoostClassifier  # AdaBoost
 from sklearn.naive_bayes import GaussianNB  # ナイーブ・ベイズ
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA  # 二次判別分析
 
-# DIRs
-# data dirs
+# ======================================================================================================
+# データを保存するためのディレクトリパス
 DATA_DIR = "../data"
+# ------------------------------------------------------------------------------------------------------
 ## 外部データ
 EXTERNAL_DIR = DATA_DIR + "/external"
-### external dirs
+### metabricの臨床データ
 EXTERNAl_BRCA_METABRIC_DATA_CLNICAL_DIR = EXTERNAL_DIR + "/brca_metabric_data_clinical"
-##加工後データ（実験中）
+# ------------------------------------------------------------------------------------------------------
+## 加工したデータ
 INTERIM_DIR = DATA_DIR + "/interim"
-### interim dirs
-INTERIM_BRCA_METABRIC_DIR = INTERIM_DIR + "/brca_metabric"
+# ......................................................................................................
+### pickle形式の加工したデータ
 INTERIM_PICKLE_DIR = INTERIM_DIR + "/pickle_data"
-#### EDA
-INTERIM_PICKLE_EDA_DIR = INTERIM_PICKLE_DIR + "/EDA_data"
-##### 各EDA
-INTERIM_PICKLE_EDA_CLINICAL_DIR = INTERIM_PICKLE_EDA_DIR +"/clinical"
-INTERIM_PICKLE_EDA_GENES_DIR=INTERIM_PICKLE_EDA_DIR+"/genes"
-### preprocess（実験中）
+# ......................................................................................................
+#### EDAのpickleデータ
+INTERIM_PICKLE_EDA_DIR = INTERIM_PICKLE_DIR + "/EDA"
+##### 臨床・遺伝子のEDAのpickleデータ
+INTERIM_PICKLE_EDA_CLINICAL_DIR = INTERIM_PICKLE_EDA_DIR + "/clinical"
+INTERIM_PICKLE_EDA_GENES_DIR = INTERIM_PICKLE_EDA_DIR + "/genes"
+# ......................................................................................................
+### preprocessのpickleデータ
 INTERIM_PICKLE_PREPROCESSED_DIR = INTERIM_PICKLE_DIR + "/preprocessed"
-INTERIM_PICKLE_PREPROCESSED_OS5YEARS_DIR=INTERIM_PICKLE_PREPROCESSED_DIR+'/OS5YEARS'
-INTERIM_PICKLE_PREPROCESSED_OS5YEARS_CLINICAL_DIR=INTERIM_PICKLE_PREPROCESSED_OS5YEARS_DIR+'/CLINICAL'
-INTERIM_PICKLE_PREPROCESSED_OS5YEARS_GENES_DIR=INTERIM_PICKLE_PREPROCESSED_OS5YEARS_DIR+'/GENES'
-INTERIM_PICKLE_PREPROCESSED_RFS_DIR=INTERIM_PICKLE_PREPROCESSED_DIR+'/RFS'
-## 本番環境前処理データ
+####　予後の予測のpreprocessのpickleデータ
+INTERIM_PICKLE_PREPROCESSED_PROGNOSIS_DIR = (
+    INTERIM_PICKLE_PREPROCESSED_DIR + "/PROGNOSIS"
+)
+##### 臨床・遺伝子の予後の予測のpreprocessのpickleデータ
+INTERIM_PICKLE_PREPROCESSED_PROGNOSIS_CLINICAL_DIR = (
+    INTERIM_PICKLE_PREPROCESSED_PROGNOSIS_DIR + "/CLINICAL"
+)
+INTERIM_PICKLE_PREPROCESSED_PROGNOSIS_GENES_DIR = (
+    INTERIM_PICKLE_PREPROCESSED_PROGNOSIS_DIR + "/GENES"
+)
+#### 再発の予測のpreprocessのpickleデータ
+INTERIM_PICKLE_PREPROCESSED_RFS_DIR = INTERIM_PICKLE_PREPROCESSED_DIR + "/RFS"
+##### 臨床・遺伝子の再発の予測のpreprocessのpickleデータ
+INTERIM_PICKLE_PREPROCESSED_RFS_CLINICAL_DIR = (
+    INTERIM_PICKLE_PREPROCESSED_RFS_DIR + "/CLINICAL"
+)
+INTERIM_PICKLE_PREPROCESSED_RFS_GENES_DIR = (
+    INTERIM_PICKLE_PREPROCESSED_RFS_DIR + "/GENES"
+)
+# ......................................................................................................
+### データのヘッド部分のみ保存するためのディレクトリ
+INTERIM_OTHERS_DIR = INTERIM_DIR + "/others"
+# ------------------------------------------------------------------------------------------------------
+## 本番環境の前処理データ
 PROCESSED_DIR = DATA_DIR + "/processed"
+# ------------------------------------------------------------------------------------------------------
 ## 生データ
 RAW_DIR = DATA_DIR + "/raw"
-### raw data dirs
+# ......................................................................................................
+### metabricの生データ
 RAW_BRCA_METABRIC_DIR = RAW_DIR + "/brca_metabric"
-### raw data file path
+### metabricの.gzファイル
 RAW_BRCA_METABRIC_TG = RAW_DIR + "/brca_metabric.tar.gz"
+# ======================================================================================================
 
-# save models dir
-MODELS="../models"
-MODELS_NOTEBOOK=MODELS+"/notebooks"
 
-# analysoutput dirs
+# ======================================================================================================
+# 学習したモデルを保存するためのディレクトリパス
+MODELS = "../models"
+# ------------------------------------------------------------------------------------------------------
+## ノートブックで学習したモデル
+MODELS_NOTEBOOK = MODELS + "/notebooks"
+# ======================================================================================================
+
+
+# ======================================================================================================
+# 分析結果のディレクトリ
 REPORT_DIR = "../reports"
-## image and plot save dirs
+# ------------------------------------------------------------------------------------------------------
+## 画像（グラフなど）の保存
 FIGURES_DIR = REPORT_DIR + "/figures"
-### 予後の予測タスクの保存先
-FIGURES_PROGNOSIS_SURVIVED_DIR = FIGURES_DIR+'/prognosis_survived'
+# ......................................................................................................
+### EDAで生成された画像
+FIGURES_EDA_DIR = FIGURES_DIR + "/EDA"
+#### 予後のEDAで生成された画像
+FIGURES_PROGNOSIS_DIR = FIGURES_EDA_DIR + "/PROGNOSIS"
+##### 臨床・遺伝子の予後のEDAで生成された画像
+FIGURES_PROGNOSIS_CLINICAL_DIR = FIGURES_PROGNOSIS_DIR + "/CLINICAL"
+FIGURES_PROGNOSIS_GENES_DIR = FIGURES_PROGNOSIS_DIR + "/GENES"
+# ......................................................................................................
+### preprocessで生成された画像
+FIGURES_PREPROCESS_DIE = FIGURES_DIR + "/PREPROCESS"
+#### 予後のpreprocessで生成された画像
+FIGURES_PREPROCESS_PROGNOSIS_DIR = FIGURES_PREPROCESS_DIE + "/PROGNOSIS"
+##### 臨床・遺伝子の予後のpreprocessで生成された画像
+FIGURES_PREPROCESS_PROGNOSIS_CLINICAL_DIR = (
+    FIGURES_PREPROCESS_PROGNOSIS_DIR + "/CLINICAL"
+)
+FIGURES_PREPROCESS_PROGNOSIS_GENES_DIR = FIGURES_PREPROCESS_PROGNOSIS_DIR + "/GENES"
+# ......................................................................................................
+### モデル作成で生成された画像
+FIGURES_MODELS_DIR = FIGURES_DIR + "/MODELS"
+#### 予後のモデル作成で生成れた画像
+FIGURES_MODELS_DIR_PROGNOSIS_DIR = FIGURES_MODELS_DIR + "/PROGNOSIS"
+##### 臨床・遺伝子の予後のモデル作成生成された画像
+FIGURES_MODELS_DIR_PROGNOSIS_CLINICAL_DIR = (
+    FIGURES_MODELS_DIR_PROGNOSIS_DIR + "/CLINICAL"
+)
+FIGURES_MODELS_DIR_PROGNOSIS_GENES_DIR = FIGURES_MODELS_DIR_PROGNOSIS_DIR + "/GENES"
+# ......................................................................................................
+### その他の画像
+FIGURES_OTHERS_DIR = FIGURES_DIR + "/OTHERS"
+# ======================================================================================================
+
+"""
+# 旧ディレクトリパス
 #### 2値分類タスク
-FIGURES_PROGNOSIS_SURVIVED_BCM_DIR=FIGURES_PROGNOSIS_SURVIVED_DIR+'/create_bcm_models'
+FIGURES_PROGNOSIS_BCM_DIR = FIGURES_PROGNOSIS_DIR + "/create_bcm_models"
 ##### 基本のプロット
-FIGURES_PROGNOSIS_SURVIVED_BCM_BASIC_DIR=FIGURES_PROGNOSIS_SURVIVED_BCM_DIR+'/basic'
+FIGURES_PROGNOSIS_BCM_BASIC_DIR = FIGURES_PROGNOSIS_BCM_DIR + "/basic"
 ##### オーバーサンプリングの実施結果の保存先
-FIGURES_PROGNOSIS_SURVIVED_BCM_OVERSAMPLING_DIR=FIGURES_PROGNOSIS_SURVIVED_BCM_DIR+'/over_sampling'
+FIGURES_PROGNOSIS_BCM_OVERSAMPLING_DIR = FIGURES_PROGNOSIS_BCM_DIR + "/over_sampling"
 ###### オーバーサンプリング詳細手法：SMOTE
-FIGURES_PROGNOSIS_SURVIVED_BCM_OVERSAMPLING_SMOTE_DIR=FIGURES_PROGNOSIS_SURVIVED_BCM_OVERSAMPLING_DIR+'/SMOTE'
+FIGURES_PROGNOSIS_BCM_OVERSAMPLING_SMOTE_DIR = (
+    FIGURES_PROGNOSIS_BCM_OVERSAMPLING_DIR + "/SMOTE"
+)
 #### 正規化の実施結果の保存先
-FIGURES_PROGNOSIS_SURVIVED_BCM_NORMALIZATION_DIR=FIGURES_PROGNOSIS_SURVIVED_BCM_DIR+'/normalization'
-### EDA画像
-SEABORN_DIR = FIGURES_DIR + "/EDA"
-### 木モデルの画像
-TREE_DIR = FIGURES_DIR + "/decision_tree"# need to modify name
-## reports
-PANDAS_PROFILING_REPORT_DIR = REPORT_DIR + "/pandas-profiling_report"
-SWEETVIZ_REPORT_DIR = REPORT_DIR + "/sweetviz_report"
+FIGURES_PROGNOSIS_BCM_NORMALIZATION_DIR = FIGURES_PROGNOSIS_BCM_DIR + "/normalization"
+"""
+# =====================================================================================================
 
 
+# =====================================================================================================
 # URL
-URL_cBioPortal='https://cbioportal-datahub.s3.amazonaws.com/brca_metabric.tar.gz'
+URL_cBioPortal = "https://cbioportal-datahub.s3.amazonaws.com/brca_metabric.tar.gz"
+# =====================================================================================================
 
+
+# =====================================================================================================
 # SEED
-SEED=100
+SEED = 100
+# =====================================================================================================
 
 
+# =====================================================================================================
 # 比較する2値分類器の設定
 bcm_names = [
     "Logistic Regression",
@@ -99,10 +170,14 @@ classifiers = [
     SVC(kernel="poly", random_state=SEED),
     SVC(kernel="rbf", random_state=SEED),
     SVC(kernel="sigmoid", random_state=SEED),
-    DecisionTreeClassifier(min_samples_split=20, min_samples_leaf=15,random_state=SEED),
-    RandomForestClassifier(min_samples_split=20, min_samples_leaf=15,random_state=SEED),
+    DecisionTreeClassifier(
+        min_samples_split=20, min_samples_leaf=15, random_state=SEED
+    ),
+    RandomForestClassifier(
+        min_samples_split=20, min_samples_leaf=15, random_state=SEED
+    ),
     AdaBoostClassifier(random_state=SEED),
     GaussianNB(),
     QDA(),
 ]
-
+# =====================================================================================================
