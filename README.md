@@ -5,7 +5,6 @@
 言語：Python Version3.8 系
 
 # 環境構築
-
 共同で研究するときには、それぞれの環境で使用しているライブラリ等のバージョンに起因するエラーを防ぐために開発環境を統一することが推奨されます。
 Python や Anaconda のようなデータ解析ツールは 2022 年現在、DS 界隈の標準と言っても過言ではありません
 （MATLAB や Excel、R に Julia と様々な物があるのでやっぱり過言かもしれません）。  
@@ -15,16 +14,36 @@ Anaconda ではいわゆる**仮想環境**を作成することができ、
 この仮想環境を作るための設計図である*hogehoge*.yml（hogehoge は任意のファイル名です）を
 Anaconda 環境で読み込むことで、OS やハードウェアの垣根を超えて同じ環境を作成することができます。  
 また、pip と比較してパッケージ管理が容易であり、不要になったライブラリは*conda uninstall*にて依存ライブラリ共々綺麗に消すことができます。
+しかしながらAnacondaの仮想環境ファイルにもとづく仮想環境の構築はOSに依存してしまいます。
+DockerであればOSに依存せずに環境を構築できるとのことなので、用意はしました。
 
-## 仮想環境構築注意点
+## Docker
+以下のコマンドで環境を構築できます。  
+不足しているライブラリは適宜docker環境内で```conda install (or pip install)```してください。
 
-### データ分析環境
+```
+# build docker image;
+# attention: use --platform=linux/amd64 if you use m1 mac
+docker build --tag breast-cancer-analytics .
 
-本来であれば OS に依存しない環境を構築したかったのですが、方法が見当たらなかった(Docker なども
-M1 Mac と windows 間でうまくいきませんでした。構築の際に platform を指定しなかったことが原因の可能性あり)ので、
-各 OS に対応した anaconda の環境 yml ファイルを用いて環境を共有することにします。
+# run docker container
+docker run -v /$(pwd):/mnt/breast_cancer_analytics -w /mnt/breast_cancer_analytics -p 8888:8888 -it breast-cancer-analytics:latest
 
-#### Anaconda 仮想環境のファイルの種類
+# relunch
+docker start 
+
+# in
+docker container exec -it <container name> bash
+
+# launch jupyter lab
+jupyter-lab --ip 0.0.0.0 --allow-root
+
+# export conda env
+conda env export > conda_env.yml
+```
+
+
+## Anaconda 仮想環境
 
 以下の形で出力し、OS に応じて仮想環境を構築することにします。
 ライブラリを追加した際にはエクスポートコマンドを実行し、ファイルの更新をお願いします。
@@ -33,53 +52,19 @@ M1 Mac と windows 間でうまくいきませんでした。構築の際に pla
 - conda_env@windows.yml
 - conda_env@ubuntu.yml
 
-#### 仮想環境インポート・エクスポートコマンド
+### 仮想環境インポート・エクスポートコマンド
 
-##### 環境インポート
+#### 環境インポート
 
 ```
 conda create env -n **env_name** -f conda_env@**os**
 ```
 
-##### 環境エクスポート
+#### 環境エクスポート
 
 ```
 conda env export > conda_env@**os** --no-builds
 ```
-
-<details>
-    <summary>dockerでの環境構築方法（現在停止中）</summary>
-        要docker-desktop
-
-        初回のdocker+anaconda環境構築
-        ```
-        # docker上でanaconda環境(Linux OS)を作成
-        docker pull continuumio/anaconda3
-        docker run --name breast_cancer_analytics --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it --rm continuumio/anaconda3:latest
-
-        # Linux環境を整える
-        cd breast_cancer_analytics
-        apt update && apt upgrade -y && apt autoremove
-        apt install make
-        make create_conda_env
-
-        # jupyter起動
-        conda activate breast-cancer-analytics
-        jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
-        ```
-
-        2回目以降
-        docker desktopなどでdocker container起動してからの手順。
-        ```
-        # dockerコンテナに入る
-        docker exec -it container_ID /bin/sh
-
-        # jupyter起動
-        conda activate breast-cancer-analytics
-        jupyter lab --ip 0.0.0.0 --allow-root /breast_cancer_analytics
-        ```
-
-</details>
 
 # git・github によるソースコード管理
 
@@ -189,9 +174,21 @@ jupyter notebook は全て./notebooks 以下に置くこと。
 
 ### 命名規則
 
-基本的な命名規則は以下だが、臨機応変に変更して良い。  
+基本的な命名規則は以下だが、臨機応変に変更してください。  
 （カテゴリ番号）.（作成番号）\-（処理カテゴリ名）\_（処理具体内容・対象）.ipynb  
 例. 0.0-download_data.ipynb
+
+#### カテゴリ番号の区分について
+
+**大区分**
+0. 分析以前の処理。データの取得など。
+1. EDA
+2. 前処理
+3. モデル構築
+
+**小区分**
+X.0.X: 予後の予測
+X.1.X: 再発の予測
 
 ### ノートブック内セル規則
 
