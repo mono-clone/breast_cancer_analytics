@@ -58,8 +58,15 @@ def check(df):
     col_list = df.columns.values  # 列名を取得
     row = []
     for col in col_list:
+        max_value=None
+        min_value=None
         unique = ""
         value_counts = ""
+        # 最大・最小の数値を取得
+        if df[col].dtype==int or df[col].dtype==float:
+            max_value=df[col].max()
+            min_value=df[col].min()
+        # ユニークな値のカウント
         if df[col].nunique() < 12:
             unique = df[col].unique()
             value_counts = df[col].value_counts().to_dict()
@@ -68,6 +75,8 @@ def check(df):
             df[col].dtypes,  # データタイプ
             df[col].isnull().sum(),  # null数
             df[col].count(),  # データ数 (欠損値除く)
+            max_value,
+            min_value,
             df[col].nunique(),  # ユニーク値の数 (欠損値除く)
             unique,  # ユニーク値
             value_counts,  # ユニーク値のそれぞれの個数
@@ -79,6 +88,8 @@ def check(df):
         "dtypes",
         "nan",
         "count",
+        "max",
+        "min",
         "num_unique",
         "unique",
         "unique_counts",
@@ -173,6 +184,7 @@ def feature_selection(
     return df_result
 
 
+# 学習曲線をプロットするための関数
 def plot_learning_curve(
     X: pd.DataFrame(),
     y: pd.DataFrame(),
@@ -237,6 +249,9 @@ def plot_learning_curve(
     plt.show()
 
 
+# 2値分類モデル（Binary Classification Model）の性能を比較する関数
+# 比較するbcmはconfig.py参照
+# 評価指標はaccuracyとf1
 def compare_bcms(
     X: pd.DataFrame(),
     y: pd.Series(),
