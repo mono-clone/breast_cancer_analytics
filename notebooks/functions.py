@@ -41,6 +41,7 @@ import warnings
 from config import SEED, bcm_names, classifiers
 
 
+#-----------------------------------------------------------------------------
 def make_dir(dir_name: str):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
@@ -53,7 +54,7 @@ def fix_seed(seed: int):
     # Numpy
     np.random.seed(seed)
 
-
+#-----------------------------------------------------------------------------
 def check(df):
     col_list = df.columns.values  # 列名を取得
     row = []
@@ -98,6 +99,22 @@ def check(df):
     d = dict(selector=".col8", props=[("min-width", "200px")])  # name
     return df.style.set_table_styles([d])
 
+# 重複した特徴量のrename関数
+def rename_duplicated_columns(df):
+    df = df.copy()
+    df_columns = df.columns
+    new_columns = []
+    for item in df_columns:
+        counter = 0
+        newitem = item
+        while newitem in new_columns:
+            counter += 1
+            newitem = "{}_{}".format(item, counter)
+        new_columns.append(newitem)
+    df.columns = new_columns
+    return df
+
+#-----------------------------------------------------------------------------
 
 # 基本的なスコアの表示（面倒なので関数化した）
 def show_scores(y_test: pd.Series, y_pred: pd.Series):
@@ -183,6 +200,7 @@ def feature_selection(
     df_result["pvalue"] = selector.pvalues_
     return df_result
 
+#-----------------------------------------------------------------------------
 
 # 学習曲線をプロットするための関数
 def plot_learning_curve(
