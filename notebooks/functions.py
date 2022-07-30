@@ -18,6 +18,10 @@ from sklearn.model_selection import KFold
 # 前処理
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
+# 特徴量選択
+from sklearn.feature_selection import GenericUnivariateSelect
+
+
 # 機械学習アルゴリズム
 from sklearn.linear_model import LogisticRegression  # ロジスティック回帰
 from sklearn.neighbors import KNeighborsClassifier  # K近傍法
@@ -28,7 +32,6 @@ from sklearn.ensemble import AdaBoostClassifier  # AdaBoost
 from sklearn.naive_bayes import GaussianNB  # ナイーブ・ベイズ
 from sklearn.decomposition import LatentDirichletAllocation as LDA  # 線形判別分析
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA  # 二次判別分析
-
 # 評価指標
 from tqdm import tqdm
 from sklearn.model_selection import learning_curve
@@ -41,6 +44,7 @@ import warnings
 from config import SEED, bcm_names, classifiers
 
 
+#-----------------------------------------------------------------------------
 def make_dir(dir_name: str):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
@@ -53,13 +57,20 @@ def fix_seed(seed: int):
     # Numpy
     np.random.seed(seed)
 
-
+#-----------------------------------------------------------------------------
 def check(df):
     col_list = df.columns.values  # 列名を取得
     row = []
     for col in col_list:
+        max_value=None
+        min_value=None
         unique = ""
         value_counts = ""
+        # 最大・最小の数値を取得
+        if df[col].dtype==int or df[col].dtype==float:
+            max_value=df[col].max()
+            min_value=df[col].min()
+        # ユニークな値のカウント
         if df[col].nunique() < 12:
             unique = df[col].unique()
             value_counts = df[col].value_counts().to_dict()
@@ -68,6 +79,8 @@ def check(df):
             df[col].dtypes,  # データタイプ
             df[col].isnull().sum(),  # null数
             df[col].count(),  # データ数 (欠損値除く)
+            max_value,
+            min_value,
             df[col].nunique(),  # ユニーク値の数 (欠損値除く)
             unique,  # ユニーク値
             value_counts,  # ユニーク値のそれぞれの個数
@@ -79,6 +92,8 @@ def check(df):
         "dtypes",
         "nan",
         "count",
+        "max",
+        "min",
         "num_unique",
         "unique",
         "unique_counts",
@@ -87,6 +102,22 @@ def check(df):
     d = dict(selector=".col8", props=[("min-width", "200px")])  # name
     return df.style.set_table_styles([d])
 
+# 重複した特徴量のrename関数
+def rename_duplicated_columns(df):
+    df = df.copy()
+    df_columns = df.columns
+    new_columns = []
+    for item in df_columns:
+        counter = 0
+        newitem = item
+        while newitem in new_columns:
+            counter += 1
+            newitem = "{}_{}".format(item, counter)
+        new_columns.append(newitem)
+    df.columns = new_columns
+    return df
+
+#-----------------------------------------------------------------------------
 
 # 基本的なスコアの表示（面倒なので関数化した）
 def show_scores(y_test: pd.Series, y_pred: pd.Series):
@@ -172,7 +203,9 @@ def feature_selection(
     df_result["pvalue"] = selector.pvalues_
     return df_result
 
+#-----------------------------------------------------------------------------
 
+# 学習曲線をプロットするための関数
 def plot_learning_curve(
     X: pd.DataFrame(),
     y: pd.DataFrame(),
@@ -237,6 +270,9 @@ def plot_learning_curve(
     plt.show()
 
 
+# 2値分類モデル（Binary Classification Model）の性能を比較する関数
+# 比較するbcmはconfig.py参照
+# 評価指標はaccuracyとf1
 def compare_bcms(
     X: pd.DataFrame(),
     y: pd.Series(),
