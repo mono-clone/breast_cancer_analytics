@@ -18,6 +18,10 @@ from sklearn.model_selection import KFold
 # 前処理
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
+# 特徴量選択
+from sklearn.feature_selection import GenericUnivariateSelect
+
+
 # 機械学習アルゴリズム
 from sklearn.linear_model import LogisticRegression  # ロジスティック回帰
 from sklearn.neighbors import KNeighborsClassifier  # K近傍法
@@ -28,7 +32,6 @@ from sklearn.ensemble import AdaBoostClassifier  # AdaBoost
 from sklearn.naive_bayes import GaussianNB  # ナイーブ・ベイズ
 from sklearn.decomposition import LatentDirichletAllocation as LDA  # 線形判別分析
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA  # 二次判別分析
-
 # 評価指標
 from tqdm import tqdm
 from sklearn.model_selection import learning_curve
