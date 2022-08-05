@@ -122,23 +122,6 @@ FIGURES_MODELS_DIR_PROGNOSIS_GENES_DIR = FIGURES_MODELS_DIR_PROGNOSIS_DIR + "/GE
 FIGURES_OTHERS_DIR = FIGURES_DIR + "/OTHERS"
 # ======================================================================================================
 
-"""
-# 旧ディレクトリパス
-#### 2値分類タスク
-FIGURES_PROGNOSIS_BCM_DIR = FIGURES_PROGNOSIS_DIR + "/create_bcm_models"
-##### 基本のプロット
-FIGURES_PROGNOSIS_BCM_BASIC_DIR = FIGURES_PROGNOSIS_BCM_DIR + "/basic"
-##### オーバーサンプリングの実施結果の保存先
-FIGURES_PROGNOSIS_BCM_OVERSAMPLING_DIR = FIGURES_PROGNOSIS_BCM_DIR + "/over_sampling"
-###### オーバーサンプリング詳細手法：SMOTE
-FIGURES_PROGNOSIS_BCM_OVERSAMPLING_SMOTE_DIR = (
-    FIGURES_PROGNOSIS_BCM_OVERSAMPLING_DIR + "/SMOTE"
-)
-#### 正規化の実施結果の保存先
-FIGURES_PROGNOSIS_BCM_NORMALIZATION_DIR = FIGURES_PROGNOSIS_BCM_DIR + "/normalization"
-"""
-# =====================================================================================================
-
 
 # =====================================================================================================
 # URL
