@@ -22,48 +22,39 @@ DockerであればOSに依存せずに環境を構築できるとのことなの
 不足しているライブラリは適宜docker環境内で```conda install (or pip install)```してください。
 
 ```
-# build docker image;
-# attention: use --platform=linux/amd64 if you use m1 mac
+# build docker image
+# warning: please cheack Dockerifile 1st command 'FROM ~'
+# please use 'FROM ubuntu:latest' if you use Intel chip
+# please use 'FROM --platform=linux/amd64 ubuntu:latest' if you use m1 chip
+# don't forget "." in this command
 docker build --tag breast-cancer-analytics .
 
 # run docker container
-docker run -v /$(pwd):/mnt/breast_cancer_analytics -w /mnt/breast_cancer_analytics -p 8888:8888 -it breast-cancer-analytics:latest
+# pwdコマンドを使用できるターミナル（シェル）環境を使用している場合
+docker run -v $PWD:/mnt/breast_cancer_analytics -w /breast_cancer_analytics -p 8888:8888 -it breast-cancer-analytics:latest
+# pwdコマンドを使用できないターミナル（シェル）を使用している場合
+docker run -v $(pwd):/mnt/breast_cancer_analytics -w /breast_cancer_analytics -p 8888:8888 -it breast-cancer-analytics:latest
 
-# relunch
-docker start 
-
-# in
+# 再起動などでコンテナ立ち上げ済みの場合、コンテナのターミナルに入る方法
+# <container name>は'docker ps'コマンドで確認すること
 docker container exec -it <container name> bash
 
+# build conda env
+conda env create -f=conda_env.yml
+# relaunch docker terminal(shell)
+# conda init後に必要
+# conda initはconda activateコマンドで必要
+docker restart <container name>
+
 # launch jupyter lab
+# 実行後、ブラウザで'http://localhost:8888'にアクセス
+# tokenはターミナルに出てくるものを使用すること
 jupyter-lab --ip 0.0.0.0 --allow-root
 
 # export conda env
+# 新しくライブラリ等インストールしたら、このコマンドを実行し、仮想環境に記録すること
 conda env export > conda_env.yml
-```
 
-
-## Anaconda 仮想環境
-
-以下の形で出力し、OS に応じて仮想環境を構築することにします。
-ライブラリを追加した際にはエクスポートコマンドを実行し、ファイルの更新をお願いします。
-
-- conda_env@mac.yml
-- conda_env@windows.yml
-- conda_env@ubuntu.yml
-
-### 仮想環境インポート・エクスポートコマンド
-
-#### 環境インポート
-
-```
-conda create env -n **env_name** -f conda_env@**os**
-```
-
-#### 環境エクスポート
-
-```
-conda env export > conda_env@**os** --no-builds
 ```
 
 # git・github によるソースコード管理
