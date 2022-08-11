@@ -28,3 +28,8 @@ RUN conda update -n base conda -y
 RUN conda update --all -y
 # install pip package
 RUN pip3 install --upgrade pip
+# create conda virtual env
+RUN conda env create -f=conda_env.yml
+
+RUN echo 'Conda env is built. please relunch this terminal by using this command "docker restart <container name>"'
+RUN echo 'You can check <container name> by using this command "docker ps"'
