@@ -122,7 +122,7 @@ git branch <branch_name>
 #### ブランチの移動
 
 ```
-git git checkout <branch_name>
+git checkout <branch_name>
 ```
 
 # ノートブック規則
