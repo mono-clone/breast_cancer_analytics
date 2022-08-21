@@ -1,5 +1,6 @@
 import os
 import random
+import pickle
 
 import numpy as np
 import pandas as pd
@@ -13,7 +14,7 @@ from six import StringIO
 
 # データセット分割
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import KFold
+from sklearn.model_selection import StratifiedKFold
 
 # 前処理
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
@@ -57,6 +58,17 @@ def fix_seed(seed: int):
     # Numpy
     np.random.seed(seed)
 
+
+# pickleオブジェクトにして保存
+def pickle_dump(obj, path):
+    with open(path, mode="wb") as f:
+        pickle.dump(obj, f)
+
+
+def pickle_load(path):
+    with open(path, mode="rb") as f:
+        data = pickle.load(f)
+        return data
 #-----------------------------------------------------------------------------
 def check(df):
     col_list = df.columns.values  # 列名を取得
@@ -204,70 +216,171 @@ def feature_selection(
     return df_result
 
 #-----------------------------------------------------------------------------
-
-# 学習曲線をプロットするための関数
 def plot_learning_curve(
-    X: pd.DataFrame(),
-    y: pd.DataFrame(),
-    estimator: callable,
-    cv: int = 10,
-    train_sizes: np.arange = np.arange(100, 1001, 100),
+    estimator,
+    title,
+    X,
+    y,
+    axes=None,
+    ylim=None,
+    cv=None,
+    n_jobs=None,
+    scoring=None,
+    train_sizes=np.linspace(0.1, 1.0, 5),
 ):
-    # cvにintを渡すと k-foldの「k」を指定できる
-    # ↓では3にしているので、3-fold法を使用する。
-    train_sizes, train_scores, test_scores = learning_curve(
+    """
+    Generate 3 plots: the test and training learning curve, the training
+    samples vs fit times curve, the fit times vs score curve.
+
+    Parameters
+    ----------
+    estimator : estimator instance
+        An estimator instance implementing `fit` and `predict` methods which
+        will be cloned for each validation.
+
+    title : str
+        Title for the chart.
+
+    X : array-like of shape (n_samples, n_features)
+        Training vector, where ``n_samples`` is the number of samples and
+        ``n_features`` is the number of features.
+
+    y : array-like of shape (n_samples) or (n_samples, n_features)
+        Target relative to ``X`` for classification or regression;
+        None for unsupervised learning.
+
+    axes : array-like of shape (3,), default=None
+        Axes to use for plotting the curves.
+
+    ylim : tuple of shape (2,), default=None
+        Defines minimum and maximum y-values plotted, e.g. (ymin, ymax).
+
+    cv : int, cross-validation generator or an iterable, default=None
+        Determines the cross-validation splitting strategy.
+        Possible inputs for cv are:
+
+          - None, to use the default 5-fold cross-validation,
+          - integer, to specify the number of folds.
+          - :term:`CV splitter`,
+          - An iterable yielding (train, test) splits as arrays of indices.
+
+        For integer/None inputs, if ``y`` is binary or multiclass,
+        :class:`StratifiedKFold` used. If the estimator is not a classifier
+        or if ``y`` is neither binary nor multiclass, :class:`KFold` is used.
+
+        Refer :ref:`User Guide <cross_validation>` for the various
+        cross-validators that can be used here.
+
+    n_jobs : int or None, default=None
+        Number of jobs to run in parallel.
+        ``None`` means 1 unless in a :obj:`joblib.parallel_backend` context.
+        ``-1`` means using all processors. See :term:`Glossary <n_jobs>`
+        for more details.
+
+    scoring : str or callable, default=None
+        A str (see model evaluation documentation) or
+        a scorer callable object / function with signature
+        ``scorer(estimator, X, y)``.
+
+    train_sizes : array-like of shape (n_ticks,)
+        Relative or absolute numbers of training examples that will be used to
+        generate the learning curve. If the ``dtype`` is float, it is regarded
+        as a fraction of the maximum size of the training set (that is
+        determined by the selected validation method), i.e. it has to be within
+        (0, 1]. Otherwise it is interpreted as absolute sizes of the training
+        sets. Note that for classification the number of samples usually have
+        to be big enough to contain at least one sample from each class.
+        (default: np.linspace(0.1, 1.0, 5))
+    """
+    if axes is None:
+        _, axes = plt.subplots(1, 2, figsize=(20, 5))
+
+    axes[0].set_title(title)
+    if ylim is not None:
+        axes[0].set_ylim(*ylim)
+        axes[1].set_ylim(*ylim)
+    axes[0].set_xlabel("Training examples")
+    axes[0].set_ylabel("Accuracy score")
+    axes[1].set_xlabel("Training examples")
+    axes[1].set_ylabel("f1 score")
+
+    # fit_times: Times spent for fitting in seconds
+    train_sizes, train_scores, test_scores,  = learning_curve(
         estimator,
         X,
         y,
+        scoring='accuracy',
         cv=cv,
+        n_jobs=n_jobs,
         train_sizes=train_sizes,
-        random_state=SEED,
-        shuffle=True,
     )
-
-    """
-    print("train_sizes(検証したサンプル数): {}".format(train_sizes))
-    print("------------")
-    print("train_scores(各サンプル数でのトレーニングスコア): \n{}".format(train_scores))
-    print("------------")
-    print("test_scores(各サンプル数でのバリデーションスコア): \n{}".format(test_scores))
-    """
-
-    # 学習の様子をプロット
     train_scores_mean = np.mean(train_scores, axis=1)
     train_scores_std = np.std(train_scores, axis=1)
     test_scores_mean = np.mean(test_scores, axis=1)
     test_scores_std = np.std(test_scores, axis=1)
+    train_sizes, train_scores, test_scores = learning_curve(
+        estimator,
+        X,
+        y,
+        scoring='f1',
+        cv=cv,
+        n_jobs=n_jobs,
+        train_sizes=train_sizes,
+    )
+    train_f1_mean = np.mean(train_scores, axis=1)
+    train_f1_std = np.std(train_scores, axis=1)
+    test_f1_mean = np.mean(test_scores, axis=1)
+    test_f1_std = np.std(test_scores, axis=1)
 
-    plt.figure()
-    plt.title("Learning Curve")
-    plt.xlabel("Training examples")
-    plt.ylabel("Score")
-
-    # Traing score と Test score をプロット
-    plt.plot(train_sizes, train_scores_mean, "o-", color="r", label="Training score")
-    plt.plot(train_sizes, test_scores_mean, "o-", color="g", label="Test score")
-
-    # 標準偏差の範囲を色付け
-    plt.fill_between(
+    # Plot learning curve
+    axes[0].grid()
+    axes[0].fill_between(
         train_sizes,
         train_scores_mean - train_scores_std,
         train_scores_mean + train_scores_std,
+        alpha=0.1,
         color="r",
-        alpha=0.2,
     )
-    plt.fill_between(
+    axes[0].fill_between(
         train_sizes,
         test_scores_mean - test_scores_std,
         test_scores_mean + test_scores_std,
+        alpha=0.1,
         color="g",
-        alpha=0.2,
     )
+    axes[0].plot(
+        train_sizes, train_scores_mean, "o-", color="r", label="Training score"
+    )
+    axes[0].plot(
+        train_sizes, test_scores_mean, "o-", color="g", label="Cross-validation score"
+    )
+    axes[0].legend(loc="best")
 
-    plt.ylim(0.5, 1.0)
-    plt.legend(loc="best")
+    # Plot learning curve (f1)
+    axes[1].grid()
+    axes[1].fill_between(
+        train_sizes,
+        train_f1_mean - train_f1_std,
+        train_f1_mean + train_f1_std,
+        alpha=0.1,
+        color="r",
+    )
+    axes[1].fill_between(
+        train_sizes,
+        test_f1_mean - test_f1_std,
+        test_f1_mean + test_f1_std,
+        alpha=0.1,
+        color="g",
+    )
+    axes[1].plot(
+        train_sizes, train_f1_mean, "o-", color="r", label="Training score (f1)"
+    )
+    axes[1].plot(
+        train_sizes, test_f1_mean, "o-", color="g", label="Cross-validation score (f1)"
+    )
+    axes[1].legend(loc="best")
 
-    plt.show()
+    return plt
 
 
 # 2値分類モデル（Binary Classification Model）の性能を比較する関数
@@ -281,7 +394,7 @@ def compare_bcms(
     sort_column_name: str = "f1_test",
     folds: int = 10,
     test_size: float = 0.25,
-    over_sampling_class=None,
+    over_sampling_class: callable=None,
     # 標準化・正規化の実行の有無、及びそれを適用するcolumns
     normalization: bool = False,
     standardization: bool = False,
@@ -294,8 +407,8 @@ def compare_bcms(
     for name, clf in tqdm(zip(bcm_names, classifiers)):  # 指定した複数の分類機を順番に呼び出す
         # print(name)  # モデル名
         # k分割交差検証の実施
-        kf = KFold(n_splits=folds, shuffle=True, random_state=SEED)
-        for train_index, test_index in kf.split(X, y):
+        skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=SEED)
+        for train_index, test_index in skf.split(X, y):
             X_train, X_test = X.iloc[train_index], X.iloc[test_index]
             # print("initsize: ", X_train.shape)
             y_train, y_test = y.iloc[train_index], y.iloc[test_index]
