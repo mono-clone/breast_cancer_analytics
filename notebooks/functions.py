@@ -400,6 +400,7 @@ def compare_bcms(
     standardization: bool = False,
     converted_columns: list() = None,
     plot_cfmatrix: bool = False,
+    save_path:str=None,
 ):
     warnings.filterwarnings("ignore")  # lrで警告が出て視認性が悪いので、いったん非表示
     result = []
@@ -471,4 +472,11 @@ def compare_bcms(
         .sort_values(sort_column_name, ascending=False)
     )
     warnings.filterwarnings("always")
+    
+    # 保存設定
+    if save_path:
+        df_result_mean.to_csv(save_path)
+        
     return df_result_mean
+
+

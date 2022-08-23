@@ -5,6 +5,7 @@
 言語：Python Version3.8 系
 
 # 環境構築
+
 共同で研究するときには、それぞれの環境で使用しているライブラリ等のバージョンに起因するエラーを防ぐために開発環境を統一することが推奨されます。
 Python や Anaconda のようなデータ解析ツールは 2022 年現在、DS 界隈の標準と言っても過言ではありません
 （MATLAB や Excel、R に Julia と様々な物があるのでやっぱり過言かもしれません）。  
@@ -14,12 +15,13 @@ Anaconda ではいわゆる**仮想環境**を作成することができ、
 この仮想環境を作るための設計図である*hogehoge*.yml（hogehoge は任意のファイル名です）を
 Anaconda 環境で読み込むことで、OS やハードウェアの垣根を超えて同じ環境を作成することができます。  
 また、pip と比較してパッケージ管理が容易であり、不要になったライブラリは*conda uninstall*にて依存ライブラリ共々綺麗に消すことができます。
-しかしながらAnacondaの仮想環境ファイルにもとづく仮想環境の構築はOSに依存してしまいます。
-DockerであればOSに依存せずに環境を構築できるとのことなので、用意はしました。
+しかしながら Anaconda の仮想環境ファイルにもとづく仮想環境の構築は OS に依存してしまいます。
+Docker であれば OS に依存せずに環境を構築できるとのことなので、用意はしました。
 
 ## Docker
+
 以下のコマンドで環境を構築できます。  
-不足しているライブラリは適宜docker環境内で```conda install (or pip install)```してください。
+不足しているライブラリは適宜 docker 環境内で`conda install (or pip install)`してください。
 
 ```
 # build docker image
@@ -30,10 +32,8 @@ DockerであればOSに依存せずに環境を構築できるとのことなの
 docker build --tag breast-cancer-analytics .
 
 # run docker container
-# pwdコマンドを使用できるターミナル（シェル）環境を使用している場合
-docker run -v $PWD:/mnt/breast_cancer_analytics -w /breast_cancer_analytics -p 8888:8888 -it breast-cancer-analytics:latest
-# pwdコマンドを使用できないターミナル（シェル）を使用している場合
-docker run -v $(pwd):/mnt/breast_cancer_analytics -w /breast_cancer_analytics -p 8888:8888 -it breast-cancer-analytics:latest
+# please run this command in this dir
+docker run --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it breast-cancer-analytics:latest
 
 # 再起動などでコンテナ立ち上げ済みの場合、コンテナのターミナルに入る方法
 # <container name>は'docker ps'コマンドで確認すること
@@ -42,9 +42,6 @@ docker container exec -it <container name> bash
 # build conda env
 conda env create -f=conda_env.yml
 # relaunch docker terminal(shell)
-# conda init後に必要
-# conda initはconda activateコマンドで必要
-docker restart <container name>
 
 # launch jupyter lab
 # 実行後、ブラウザで'http://localhost:8888'にアクセス
@@ -171,8 +168,8 @@ jupyter notebook は全て./notebooks 以下に置くこと。
 
 #### カテゴリ番号の区分について
 
-**大区分**
-0. 分析以前の処理。データの取得など。
+**大区分** 0. 分析以前の処理。データの取得など。
+
 1. EDA
 2. 前処理
 3. モデル構築
