@@ -21,16 +21,16 @@ EXTERNAl_BRCA_METABRIC_DATA_CLNICAL_DIR = EXTERNAL_DIR + "/brca_metabric_data_cl
 INTERIM_DIR = DATA_DIR + "/interim"
 # ......................................................................................................
 ### pickle形式の加工したデータ
-INTERIM_PICKLE_DIR = INTERIM_DIR + "/pickle_data"
+INTERIM_PICKLE_DIR = INTERIM_DIR + "/PICKLE_DATA"
 # ......................................................................................................
 #### EDAのpickleデータ
 INTERIM_PICKLE_EDA_DIR = INTERIM_PICKLE_DIR + "/EDA"
 ##### 臨床・遺伝子のEDAのpickleデータ
-INTERIM_PICKLE_EDA_CLINICAL_DIR = INTERIM_PICKLE_EDA_DIR + "/clinical"
-INTERIM_PICKLE_EDA_GENES_DIR = INTERIM_PICKLE_EDA_DIR + "/genes"
+INTERIM_PICKLE_EDA_CLINICAL_DIR = INTERIM_PICKLE_EDA_DIR + "/CLINICAL"
+INTERIM_PICKLE_EDA_GENES_DIR = INTERIM_PICKLE_EDA_DIR + "/GENES"
 # ......................................................................................................
 ### preprocessのpickleデータ
-INTERIM_PICKLE_PREPROCESSED_DIR = INTERIM_PICKLE_DIR + "/preprocessed"
+INTERIM_PICKLE_PREPROCESSED_DIR = INTERIM_PICKLE_DIR + "/PREPROCESSED"
 ####　予後の予測のpreprocessのpickleデータ
 INTERIM_PICKLE_PREPROCESSED_PROGNOSIS_DIR = (
     INTERIM_PICKLE_PREPROCESSED_DIR + "/PROGNOSIS"
@@ -56,8 +56,8 @@ INTERIM_PICKLE_PREPROCESSED_RFS_GENES_DIR = (
     INTERIM_PICKLE_PREPROCESSED_RFS_DIR + "/GENES"
 )
 # ......................................................................................................
-### データのヘッド部分のみ保存するためのディレクトリ
-INTERIM_OTHERS_DIR = INTERIM_DIR + "/others"
+### その他のデータを保存するためのディレクトリ
+INTERIM_OTHERS_DIR = INTERIM_DIR + "/OTHERS"
 # ------------------------------------------------------------------------------------------------------
 ## 本番環境の前処理データ
 PROCESSED_DIR = DATA_DIR + "/processed"
@@ -86,7 +86,7 @@ MODELS_NOTEBOOK = MODELS + "/notebooks"
 REPORT_DIR = "../reports"
 # ------------------------------------------------------------------------------------------------------
 ## 画像（グラフなど）の保存
-FIGURES_DIR = REPORT_DIR + "/figures"
+FIGURES_DIR = REPORT_DIR + "/FIGURES"
 # ......................................................................................................
 ### EDAで生成された画像
 FIGURES_EDA_DIR = FIGURES_DIR + "/EDA"
@@ -114,19 +114,38 @@ FIGURES_MODELS_DIR = FIGURES_DIR + "/MODELS"
 #### 予後のモデル作成で生成れた画像
 FIGURES_MODELS_DIR_PROGNOSIS_DIR = FIGURES_MODELS_DIR + "/PROGNOSIS"
 ##### 臨床・遺伝子の予後のモデル作成生成された画像
-FIGURES_MODELS_DIR_PROGNOSIS_CLINICAL_DIR = (
+FIGURES_MODELS_PROGNOSIS_CLINICAL_DIR = (
     FIGURES_MODELS_DIR_PROGNOSIS_DIR + "/CLINICAL"
 )
-FIGURES_MODELS_DIR_PROGNOSIS_GENES_DIR = (
+FIGURES_MODELS_PROGNOSIS_GENES_DIR = (
     FIGURES_MODELS_DIR_PROGNOSIS_DIR + "/GENES"
 )
-FIGURES_MODELS_DIR_PROGNOSIS_CROSS_DIR = (
+FIGURES_MODELS_PROGNOSIS_CROSS_DIR = (
     FIGURES_MODELS_DIR_PROGNOSIS_DIR + "/CROSS"
 )
-FIGURES_MODELS_DIR_PROGNOSIS_GENES_DIR = FIGURES_MODELS_DIR_PROGNOSIS_DIR + "/GENES"
 # ......................................................................................................
 ### その他の画像
 FIGURES_OTHERS_DIR = FIGURES_DIR + "/OTHERS"
+
+# ------------------------------------------------------------------------------------------------------
+## 表の保存（基本csv）
+TABLES_DIR = REPORT_DIR + "/TABLES"
+# ......................................................................................................
+### モデル作成で生成された表
+TABLES_MODELS_DIR = TABLES_DIR + "/MODELS"
+#### 予後のモデル作成で生成れた表
+TABLES_MODELS_PROGNOSIS_DIR = TABLES_MODELS_DIR + "/PROGNOSIS"
+##### 臨床・遺伝子の予後のモデル作成生成された表
+TABLES_MODELS_PROGNOSIS_CLINICAL_DIR = (
+    TABLES_MODELS_PROGNOSIS_DIR + "/CLINICAL"
+)
+TABLES_MODELS_PROGNOSIS_GENES_DIR = (
+    TABLES_MODELS_PROGNOSIS_DIR + "/GENES"
+)
+TABLES_MODELS_PROGNOSIS_CROSS_DIR = (
+    TABLES_MODELS_PROGNOSIS_DIR + "/CROSS"
+)
+# ......................................................................................................
 # ======================================================================================================
 
 

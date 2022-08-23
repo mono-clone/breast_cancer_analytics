@@ -12,24 +12,41 @@
 # FROM ubuntu:latest  
 FROM --platform=linux/amd64 ubuntu:latest
 
-# add the bash script
-ADD install.sh /
-# change rights for the script
-RUN chmod u+x /install.sh
-# run the bash script
-# took 50 minutes......(using m1 MacBookAir, 16GB RAM)
-RUN /install.sh
+# setup Ubuntu env 
+RUN apt-get update && apt-get upgrade -y 
+RUN apt-get install -y \
+gcc \
+git \
+screen \
+htop \
+vim \
+wget \
+bash
+RUN apt-get clean
+
+# install miniconda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    -O Miniconda.sh
+RUN bash Miniconda.sh -b
+RUN rm -rf Miniconda.sh 
+
 # prepend the new path
 ENV PATH /root/miniconda3/bin:$PATH
 
+# install pip package
+RUN pip install --upgrade pip
 # update anaconda 
-RUN conda update -n base conda -y
+RUN conda update -n base -c defaults conda -y
 # update conda packages
 RUN conda update --all -y
-# install pip package
-RUN pip3 install --upgrade pip
 # create conda virtual env
+COPY conda_env.yml .
 RUN conda env create -f=conda_env.yml
+RUN conda init && echo "conda actiate breast-cancer-analytics" >> ~/.bashrc
+
+ENV CONDA_DEFAULT_ENV breast-cancer-analytics && PATH /opt/conda/envs/breast-cancer-analytics/bin:$PATH
+
+WORKDIR /
 
 RUN echo 'Conda env is built. please relunch this terminal by using this command "docker restart <container name>"'
 RUN echo 'You can check <container name> by using this command "docker ps"'
