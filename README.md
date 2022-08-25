@@ -50,7 +50,7 @@ jupyter-lab --ip 0.0.0.0 --allow-root
 
 # export conda env
 # 新しくライブラリ等インストールしたら、このコマンドを実行し、仮想環境に記録すること
-conda env export > conda_env.yml
+conda env export > ../conda_env.yml
 
 ```
 

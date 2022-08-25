@@ -318,6 +318,9 @@ def plot_learning_curve(
     train_scores_std = np.std(train_scores, axis=1)
     test_scores_mean = np.mean(test_scores, axis=1)
     test_scores_std = np.std(test_scores, axis=1)
+    print('train_acc_mean: ', train_scores_mean)
+    print('test_acc_mean: ', test_scores_mean)
+
     train_sizes, train_scores, test_scores = learning_curve(
         estimator,
         X,
@@ -331,7 +334,9 @@ def plot_learning_curve(
     train_f1_std = np.std(train_scores, axis=1)
     test_f1_mean = np.mean(test_scores, axis=1)
     test_f1_std = np.std(test_scores, axis=1)
-
+    print('train_f1_mean: ', train_f1_mean)
+    print('test_f1_mean: ', test_f1_mean)
+    
     # Plot learning curve
     axes[0].grid()
     axes[0].fill_between(
