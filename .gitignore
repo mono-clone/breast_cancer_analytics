@@ -91,3 +91,5 @@ target/
 # references
 references/meetings/
 reports/
+notebooks/*.png
+notebooks/*.jpeg

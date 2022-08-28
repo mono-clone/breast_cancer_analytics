@@ -22,7 +22,7 @@ dependencies:
   - backports=1.0=py_2
   - backports.functools_lru_cache=1.6.4=pyhd8ed1ab_0
   - beautifulsoup4=4.11.1=pyha770c72_0
-  - black=22.3.0=pyhd8ed1ab_0
+  - black=22.6.0=py38h578d9bd_2
   - bleach=5.0.0=pyhd8ed1ab_0
   - boruta_py=0.3=py_0
   - brotli=1.0.9=h166bdaf_7
@@ -39,10 +39,12 @@ dependencies:
   - charset-normalizer=2.0.12=pyhd8ed1ab_0
   - click=8.1.3=py38h578d9bd_0
   - cliff=4.0.0=pyhd8ed1ab_0
+  - cloudpickle=2.1.0=pyhd8ed1ab_0
   - cmaes=0.8.2=pyh44b312d_0
   - cmd2=2.4.2=py38h578d9bd_0
   - colorama=0.4.4=pyh9f0ad1d_0
   - colorlog=6.6.0=py38h578d9bd_1
+  - colour=0.1.5=py_0
   - conda=4.12.0=py38h578d9bd_0
   - conda-build=3.21.8=py38h578d9bd_0
   - conda-package-handling=1.8.1=py38h0a891b7_1
@@ -60,6 +62,7 @@ dependencies:
   - decorator=5.1.1=pyhd8ed1ab_0
   - defusedxml=0.7.1=pyhd8ed1ab_0
   - dtale=2.3.0=pyhd8ed1ab_0
+  - dtreeviz=1.3.7=pyh050c7b8_0
   - entrypoints=0.4=pyhd8ed1ab_0
   - et_xmlfile=1.0.1=py_1001
   - executing=0.8.3=pyhd8ed1ab_0
@@ -101,6 +104,7 @@ dependencies:
   - importlib-metadata=4.11.3=py38h578d9bd_1
   - importlib_metadata=4.11.3=hd8ed1ab_1
   - importlib_resources=5.7.1=pyhd8ed1ab_0
+  - iniconfig=1.1.1=pyh9f0ad1d_0
   - interface_meta=1.3.0=pyhd8ed1ab_0
   - ipykernel=6.13.0=py38h7f3c49e_0
   - ipython=8.3.0=py38h578d9bd_0
@@ -153,6 +157,7 @@ dependencies:
   - libiconv=1.16=h516909a_0
   - liblapack=3.9.0=14_linux64_openblas
   - liblief=0.11.5=h9c3ff4c_1
+  - libllvm10=10.0.1=he513fc3_3
   - libllvm11=11.1.0=hf817b99_3
   - libnsl=2.0.0=h7f98852_0
   - libogg=1.3.4=h7f98852_1
@@ -174,6 +179,7 @@ dependencies:
   - libxml2=2.9.12=h72842e0_0
   - libzlib=1.2.11=h166bdaf_1014
   - lifelines=0.27.0=pyhd8ed1ab_1
+  - llvmlite=0.36.0=py38h4630a5e_0
   - lz4=4.0.0=py38h1bf946c_1
   - lz4-c=1.9.3=h9c3ff4c_1
   - lzo=2.10=h516909a_1000
@@ -202,6 +208,7 @@ dependencies:
   - notebook-shim=0.1.0=pyhd8ed1ab_0
   - nspr=4.32=h9c3ff4c_1
   - nss=3.77=h2350873_0
+  - numba=0.53.1=py38h8b71fd7_1
   - numpy=1.22.3=py38h99721a1_2
   - openjpeg=2.4.0=hb52868f_1
   - openpyxl=3.0.9=pyhd8ed1ab_0
@@ -226,6 +233,7 @@ dependencies:
   - pkginfo=1.8.2=pyhd8ed1ab_0
   - platformdirs=2.5.1=pyhd8ed1ab_0
   - plotly=5.7.0=pyhd8ed1ab_0
+  - pluggy=1.0.0=py38h578d9bd_3
   - ppscore=1.2.0=pyhd3deb0d_0
   - prettytable=3.3.0=pyhd8ed1ab_0
   - prometheus_client=0.14.1=pyhd8ed1ab_0
@@ -235,6 +243,7 @@ dependencies:
   - pthread-stubs=0.4=h36c2ea0_1001
   - ptyprocess=0.7.0=pyhd3deb0d_0
   - pure_eval=0.2.2=pyhd8ed1ab_0
+  - py=1.11.0=pyh6c4a22f_0
   - py-lief=0.11.5=py38h709712a_1
   - pycodestyle=2.8.0=pyhd8ed1ab_0
   - pycosat=0.6.3=py38h0a891b7_1010
@@ -252,6 +261,7 @@ dependencies:
   - pyqtwebengine=5.12.1=py38h7400c14_8
   - pyrsistent=0.18.1=py38h0a891b7_1
   - pysocks=1.7.1=py38h578d9bd_5
+  - pytest=7.1.2=py38h578d9bd_0
   - python=3.8.13=h582c2e5_0_cpython
   - python-dateutil=2.8.2=pyhd8ed1ab_0
   - python-fastjsonschema=2.15.3=pyhd8ed1ab_0
@@ -275,7 +285,9 @@ dependencies:
   - seaborn-base=0.11.2=pyhd8ed1ab_0
   - send2trash=1.8.0=pyhd8ed1ab_0
   - setuptools=62.1.0=py38h578d9bd_0
+  - shap=0.40.0=py38h43a58ef_1
   - six=1.16.0=pyh6c4a22f_0
+  - slicer=0.0.7=pyhd8ed1ab_0
   - smmap=3.0.5=pyh44b312d_0
   - sniffio=1.2.0=py38h578d9bd_3
   - soupsieve=2.3.1=pyhd8ed1ab_0

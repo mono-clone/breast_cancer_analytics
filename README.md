@@ -24,6 +24,8 @@ Docker であれば OS に依存せずに環境を構築できるとのことな
 不足しているライブラリは適宜 docker 環境内で`conda install (or pip install)`してください。
 
 ```
+# PLEASE RUN THESE COMMANDS UNDER THIS PROJECT REPOSITORY (./breast-cancer-analytics)
+
 # build docker image
 # warning: please cheack Dockerifile 1st command 'FROM ~'
 # please use 'FROM ubuntu:latest' if you use Intel chip
@@ -48,9 +50,9 @@ conda env create -f=conda_env.yml
 # tokenはターミナルに出てくるものを使用すること
 jupyter-lab --ip 0.0.0.0 --allow-root
 
-# export conda env
+# export conda env (RUN UNDER ./breast-cancer-analytics)
 # 新しくライブラリ等インストールしたら、このコマンドを実行し、仮想環境に記録すること
-conda env export > conda_env.yml
+conda env export > ./conda_env.yml
 
 ```
 
