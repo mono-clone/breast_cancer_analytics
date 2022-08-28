@@ -45,7 +45,7 @@ RUN conda env create -f=conda_env.yml
 RUN conda config --add channels conda-forge
 RUN conda init && echo "conda activate breast-cancer-analytics" >> ~/.bashrc
 
-ENV CONDA_DEFAULT_ENV breast-cancer-analytics && PATH /opt/conda/envs/breast-cancer-analytics/bin:$PATH
+ENV CONDA_DEFAULT_ENV breast-cancer-analytics && PATH /root/conda/envs/breast-cancer-analytics/bin:$PATH
 
 WORKDIR /breast_cancer_analytics
 
