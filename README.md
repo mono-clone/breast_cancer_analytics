@@ -37,22 +37,23 @@ docker build --tag breast-cancer-analytics .
 # please run this command in this dir
 docker run --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it breast-cancer-analytics:latest
 
-# 再起動などでコンテナ立ち上げ済みの場合、コンテナのターミナルに入る方法
-# <container name>は'docker ps'コマンドで確認すること
+# relaunch docker container
+# please check <container id> by this command 'docker ps --all'
+docker restart <container id>
+# rejoin relaunched docker container
 docker container exec -it <container name> bash
 
 # build conda env
 conda env create -f=conda_env.yml
 # relaunch docker terminal(shell)
 
-# launch jupyter lab
-# 実行後、ブラウザで'http://localhost:8888'にアクセス
-# tokenはターミナルに出てくるものを使用すること
+# launch jupyter labs
+# access 'http://localhost:8888' on your browser with token in terminal
 jupyter-lab --ip 0.0.0.0 --allow-root
 
 # export conda env (RUN UNDER ./breast-cancer-analytics)
-# 新しくライブラリ等インストールしたら、このコマンドを実行し、仮想環境に記録すること
-conda env export > ./conda_env.yml
+# please use this command when you add new libriries
+conda env export > conda_env.yml
 
 ```
 
