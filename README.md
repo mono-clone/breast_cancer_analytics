@@ -2,7 +2,7 @@
 
 修士論文共同研究
 
-言語：Python Version3.8 系
+言語：Python
 
 # 環境構築
 
