@@ -56,6 +56,17 @@ INTERIM_PICKLE_PREPROCESSED_RFS_GENES_DIR = (
     INTERIM_PICKLE_PREPROCESSED_RFS_DIR + "/GENES"
 )
 # ......................................................................................................
+### tuningのpickleデータ
+INTERIM_PICKLE_TUNING_DIR = INTERIM_PICKLE_DIR + "/TUNING"
+####　予後の予測のtuningのpickleデータ
+INTERIM_PICKLE_TUNING_PROGNOSIS_DIR = (
+    INTERIM_PICKLE_TUNING_DIR + "/PROGNOSIS"
+)
+##### 臨床・遺伝子の予後の予測のtuningのpickleデータ
+INTERIM_PICKLE_TUNING_PROGNOSIS_CROSS_DIR = (
+    INTERIM_PICKLE_TUNING_PROGNOSIS_DIR + "/CROSS"
+)
+# ......................................................................................................
 ### その他のデータを保存するためのディレクトリ
 INTERIM_OTHERS_DIR = INTERIM_DIR + "/OTHERS"
 # ------------------------------------------------------------------------------------------------------

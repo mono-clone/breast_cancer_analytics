@@ -46,10 +46,10 @@ from config import SEED, bcm_names, classifiers
 
 
 #-----------------------------------------------------------------------------
+# basic function
 def make_dir(dir_name: str):
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
-
 
 # seedの固定
 def fix_seed(seed: int):
@@ -58,18 +58,17 @@ def fix_seed(seed: int):
     # Numpy
     np.random.seed(seed)
 
-
 # pickleオブジェクトにして保存
 def pickle_dump(obj, path):
     with open(path, mode="wb") as f:
         pickle.dump(obj, f)
-
 
 def pickle_load(path):
     with open(path, mode="rb") as f:
         data = pickle.load(f)
         return data
 #-----------------------------------------------------------------------------
+# df status function
 def check(df):
     col_list = df.columns.values  # 列名を取得
     row = []
@@ -130,7 +129,7 @@ def rename_duplicated_columns(df):
     return df
 
 #-----------------------------------------------------------------------------
-
+# learning function
 # 基本的なスコアの表示（面倒なので関数化した）
 def show_scores(y_test: pd.Series, y_pred: pd.Series):
     print("accuracy: ", accuracy_score(y_test, y_pred))
@@ -192,28 +191,6 @@ def transform_norm(
         mm.transform(X_test), index=X_test.index, columns=X_test.columns
     )
     return X_train_norm, X_test_norm
-
-
-# GenericUnivariateSelectについて
-# https://scikit-learn.org/stable/modules/generated/sklearn.feature_selection.GenericUnivariateSelect.html#sklearn.feature_selection.GenericUnivariateSelect
-def feature_selection(
-    X: pd.DataFrame, y: pd.Series, feature_selecton_function: callable, mode: str, param
-) -> pd.DataFrame:
-    selector = GenericUnivariateSelect(
-        feature_selecton_function, mode=mode, param=param
-    )
-    # 特徴量選択の実施（fit）
-    selector.fit(X, y)
-    selector.transform(X),
-    # 返り値のためのdf作成
-    df_result = pd.DataFrame(
-        selector.get_support(),
-        index=X.columns.values,
-        columns=["False: dropped"],
-    )
-    df_result["score"] = selector.scores_
-    df_result["pvalue"] = selector.pvalues_
-    return df_result
 
 #-----------------------------------------------------------------------------
 def plot_learning_curve(
@@ -391,14 +368,15 @@ def plot_learning_curve(
 # 2値分類モデル（Binary Classification Model）の性能を比較する関数
 # 比較するbcmはconfig.py参照
 # 評価指標はaccuracyとf1
+# please use validation data (be careful of leakage)
 def compare_bcms(
-    X: pd.DataFrame(),
-    y: pd.Series(),
+    X_train: pd.DataFrame(),
+    y_train: pd.Series(),
+    X_val: pd.DataFrame(),
+    y_val: pd.Series(),
     bcm_names: list = bcm_names,
     classifiers: list = classifiers,
-    sort_column_name: str = "f1_test",
-    folds: int = 10,
-    test_size: float = 0.25,
+    sort_column_name: str = "f1_val",
     over_sampling_class: callable=None,
     # 標準化・正規化の実行の有無、及びそれを適用するcolumns
     normalization: bool = False,
@@ -411,77 +389,63 @@ def compare_bcms(
     result = []
 
     for name, clf in tqdm(zip(bcm_names, classifiers)):  # 指定した複数の分類機を順番に呼び出す
-        # print(name)  # モデル名
-        # k分割交差検証の実施
-        skf = StratifiedKFold(n_splits=folds, shuffle=True, random_state=SEED)
-        for train_index, test_index in skf.split(X, y):
-            X_train, X_test = X.iloc[train_index], X.iloc[test_index]
-            # print("initsize: ", X_train.shape)
-            y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+        # 標準化の処理
+        if standardization:
+            # 特定のカラムへの適用
+            if converted_columns:
+                (
+                    X_train[converted_columns],
+                    X_val[converted_columns],
+                ) = transform_std(
+                    X_train[converted_columns], X_val[converted_columns]
+                )
+            # df全体への適用
+            else:
+                X_train, X_val = transform_std(X_train, X_val)
 
-            # 標準化の処理
-            if standardization:
-                # 特定のカラムへの適用
-                if converted_columns:
-                    (
-                        X_train[converted_columns],
-                        X_test[converted_columns],
-                    ) = transform_std(
-                        X_train[converted_columns], X_test[converted_columns]
-                    )
-                # df全体への適用
-                else:
-                    X_train, X_test = transform_std(X_train, X_test)
-            
-            # 正規化の処理
-            if normalization:
-                # 特定のカラムへの適用
-                if converted_columns:
-                    (
-                        X_train[converted_columns],
-                        X_test[converted_columns],
-                    ) = transform_norm(
-                        X_train[converted_columns], X_test[converted_columns]
-                    )
-                # df全体への適用
-                else:
-                    X_train, X_test = transform_std(X_train, X_test)
-            
-            # オーバーサンプリング（trainデータのみに適用し、testデータには適用しない）
-            if over_sampling_class:
-                X_train, y_train = over_sampling_class.fit_resample(X_train, y_train)
-            # print("over sampling size: ", X_train.shape)
+        # 正規化の処理
+        if normalization:
+            # 特定のカラムへの適用
+            if converted_columns:
+                (
+                    X_train[converted_columns],
+                    X_val[converted_columns],
+                ) = transform_norm(
+                    X_train[converted_columns], X_val[converted_columns]
+                )
+            # df全体への適用
+            else:
+                X_train, X_val = transform_std(X_train, X_val)
 
-            # 訓練のスコア
-            clf.fit(X_train, y_train)  # 学習
-            y_pred_train = clf.predict(X_train)
-            acc_train = accuracy_score(y_train, y_pred_train)
-            f1_train = f1_score(y_train, y_pred_train)
-            #  予測値のスコア
-            y_pred = clf.predict(X_test)
-            acc_test = accuracy_score(y_test, y_pred)  # 正解率（test）の算出
-            f1_test = f1_score(y_test, y_pred)
-            result.append([name, acc_train, acc_test, f1_train, f1_test])  # 結果の格納
+        # オーバーサンプリング（trainデータのみに適用し、testデータには適用しない）
+        if over_sampling_class:
+            X_train, y_train = over_sampling_class.fit_resample(X_train, y_train)
+
+        # 訓練のスコア
+        clf.fit(X_train, y_train)  # 学習
+        y_pred_train = clf.predict(X_train)
+        acc_train = accuracy_score(y_train, y_pred_train)
+        f1_train = f1_score(y_train, y_pred_train)
+        # 予測値のスコア
+        y_pred_val = clf.predict(X_val)
+        acc_val = accuracy_score(y_val, y_pred_val)  # 正解率（test）の算出
+        f1_val = f1_score(y_val, y_pred_val)
+        result.append([name, acc_train, acc_val, f1_train, f1_val])  # 結果の格納
         # 混合行列の表示
         if plot_cfmatrix:
-            plot_confusion_matrix(y_test, y_pred)
-            
-
+            plot_confusion_matrix(y_val, y_pred_val)
     # 表示設定
     df_result = pd.DataFrame(
-        result, columns=["classifier", "acc_train", "acc_test", "f1_train", "f1_test"]
+        result, columns=["classifier", "acc_train", "acc_val", "f1_train", "f1_val"]
     )
     df_result_mean = (
         df_result.groupby("classifier")
         .mean()
         .sort_values(sort_column_name, ascending=False)
     )
-    warnings.filterwarnings("always")
-    
     # 保存設定
     if save_path:
         df_result_mean.to_csv(save_path)
-        
     return df_result_mean
 
 
