@@ -33,7 +33,7 @@ dependencies:
   - ca-certificates=2022.6.15=ha878542_0
   - cairo=1.16.0=h6cf1ce9_1008
   - category_encoders=2.5.0=pyhd8ed1ab_0
-  - certifi=2022.6.15=py38h578d9bd_0
+  - certifi=2022.6.15=pyhd8ed1ab_1
   - cffi=1.15.0=py38h3931269_0
   - chardet=4.0.0=py38h578d9bd_3
   - charset-normalizer=2.0.12=pyhd8ed1ab_0
@@ -178,7 +178,7 @@ dependencies:
   - libxkbcommon=1.0.3=he3ba5ed_0
   - libxml2=2.9.12=h72842e0_0
   - libzlib=1.2.11=h166bdaf_1014
-  - lifelines=0.27.0=pyhd8ed1ab_1
+  - lifelines=0.27.1=pyhd8ed1ab_0
   - llvmlite=0.36.0=py38h4630a5e_0
   - lz4=4.0.0=py38h1bf946c_1
   - lz4-c=1.9.3=h9c3ff4c_1
