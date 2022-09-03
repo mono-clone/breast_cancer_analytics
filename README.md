@@ -52,7 +52,7 @@ conda env create -f=conda_env.yml
 jupyter-lab --ip 0.0.0.0 --allow-root
 
 # export conda env (RUN UNDER ./breast-cancer-analytics)
-# please use this command when you add new libriries
+# 新しくライブラリ等インストールしたら、このコマンドを実行し、仮想環境に記録すること
 conda env export > conda_env.yml
 
 ```
