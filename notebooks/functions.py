@@ -115,7 +115,6 @@ def check(df):
 
 # 重複した特徴量のrename関数
 def rename_duplicated_columns(df):
-    df = df.copy()
     df_columns = df.columns
     new_columns = []
     for item in df_columns:
