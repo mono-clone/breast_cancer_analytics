@@ -115,7 +115,6 @@ def check(df):
 
 # 重複した特徴量のrename関数
 def rename_duplicated_columns(df):
-    df = df.copy()
     df_columns = df.columns
     new_columns = []
     for item in df_columns:
@@ -291,6 +290,7 @@ def plot_learning_curve(
         n_jobs=n_jobs,
         train_sizes=train_sizes,
     )
+    print('-----'*4,'score','-----'*4)
     train_scores_mean = np.mean(train_scores, axis=1)
     train_scores_std = np.std(train_scores, axis=1)
     test_scores_mean = np.mean(test_scores, axis=1)

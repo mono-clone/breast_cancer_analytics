@@ -96,7 +96,7 @@ REPORT_DIR = "../reports"
 ## 画像（グラフなど）の保存
 FIGURES_DIR = REPORT_DIR + "/FIGURES"
 # ......................................................................................................
-### EDAで生成された画像
+### 1.X.X-EDAで生成された画像
 FIGURES_EDA_DIR = FIGURES_DIR + "/EDA"
 #### 予後のEDAで生成された画像
 FIGURES_PROGNOSIS_DIR = FIGURES_EDA_DIR + "/PROGNOSIS"
@@ -106,7 +106,7 @@ FIGURES_PROGNOSIS_GENES_DIR = FIGURES_PROGNOSIS_DIR + "/GENES"
 FIGURES_PROGNOSIS_CROSS_DIR = FIGURES_PROGNOSIS_DIR + "/CROSS"
 
 # ......................................................................................................
-### preprocessで生成された画像
+### 2.X.X-preprocessで生成された画像
 FIGURES_PREPROCESS_DIE = FIGURES_DIR + "/PREPROCESS"
 #### 予後のpreprocessで生成された画像
 FIGURES_PREPROCESS_PROGNOSIS_DIR = FIGURES_PREPROCESS_DIE + "/PROGNOSIS"
@@ -117,7 +117,7 @@ FIGURES_PREPROCESS_PROGNOSIS_CLINICAL_DIR = (
 FIGURES_PREPROCESS_PROGNOSIS_GENES_DIR = FIGURES_PREPROCESS_PROGNOSIS_DIR + "/GENES"
 FIGURES_PREPROCESS_PROGNOSIS_CROSS_DIR = FIGURES_PREPROCESS_PROGNOSIS_DIR + "/CROSS"
 # ......................................................................................................
-### モデル作成で生成された画像
+### 3.X.X-create_bcmで生成された画像
 FIGURES_MODELS_DIR = FIGURES_DIR + "/MODELS"
 #### 予後のモデル作成で生成れた画像
 FIGURES_MODELS_DIR_PROGNOSIS_DIR = FIGURES_MODELS_DIR + "/PROGNOSIS"
@@ -130,6 +130,33 @@ FIGURES_MODELS_PROGNOSIS_GENES_DIR = (
 )
 FIGURES_MODELS_PROGNOSIS_CROSS_DIR = (
     FIGURES_MODELS_DIR_PROGNOSIS_DIR + "/CROSS"
+)
+# ......................................................................................................
+### 4.X.X-tuningで生成された画像
+FIGURES_TUNING_DIR = FIGURES_DIR + "/TUNING"
+#### 予後のモデル作成で生成れた画像
+FIGURES_TUNING_DIR_PROGNOSIS_DIR = FIGURES_TUNING_DIR + "/PROGNOSIS"
+##### 臨床・遺伝子の予後のモデル作成生成された画像
+FIGURES_TUNING_PROGNOSIS_CROSS_DIR = (
+    FIGURES_TUNING_DIR_PROGNOSIS_DIR + "/CROSS"
+)
+# ......................................................................................................
+### 5.X.X-explainで生成された画像
+FIGURES_EXPLAIN_DIR = FIGURES_DIR + "/EXPLAIN"
+#### 予後のモデル作成で生成れた画像
+FIGURES_EXPLAIN_DIR_PROGNOSIS_DIR = FIGURES_EXPLAIN_DIR + "/PROGNOSIS"
+##### 臨床・遺伝子の予後のモデル作成生成された画像
+FIGURES_EXPLAIN_PROGNOSIS_CROSS_DIR = (
+    FIGURES_EXPLAIN_DIR_PROGNOSIS_DIR + "/CROSS"
+)
+# ......................................................................................................
+### 6.X.X-validate_genesで生成された画像
+FIGURES_VALGENES_DIR = FIGURES_DIR + "/VALIDATE_GENES"
+#### 予後のモデル作成で生成れた画像
+FIGURES_VALGENES_DIR_PROGNOSIS_DIR = FIGURES_VALGENES_DIR + "/PROGNOSIS"
+##### 臨床・遺伝子の予後のモデル作成生成された画像
+FIGURES_VALGENES_PROGNOSIS_CROSS_DIR = (
+    FIGURES_VALGENES_DIR_PROGNOSIS_DIR + "/CROSS"
 )
 # ......................................................................................................
 ### その他の画像
@@ -166,6 +193,13 @@ URL_cBioPortal = "https://cbioportal-datahub.s3.amazonaws.com/brca_metabric.tar.
 # =====================================================================================================
 # SEED
 SEED = 100
+# microarray_name
+SET_NAME_MICROARRAY = (
+    "mrna_agilent_microarray",
+    "mrna_agilent_microarray_zscores_ref_all_samples",
+    "mrna_agilent_microarray_zscores_ref_diploid_samples",
+)
+INDEX_MICROARRAY = 2
 # =====================================================================================================
 
 
