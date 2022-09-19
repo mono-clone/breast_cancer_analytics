@@ -46,7 +46,6 @@ docker container exec -it <container name> bash
 
 # build conda env
 conda env create -f=conda_env.yml
-# relaunch docker terminal(shell)
 
 # launch jupyter labs
 # access 'http://localhost:8888' on your browser with token in terminal
