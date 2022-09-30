@@ -6,6 +6,9 @@ from sklearn.tree import DecisionTreeClassifier, export_graphviz  # 決定木
 from sklearn.ensemble import RandomForestClassifier  # ランダムフォレスト
 from sklearn.ensemble import AdaBoostClassifier  # AdaBoost
 from sklearn.naive_bayes import GaussianNB  # ナイーブ・ベイズ
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.linear_model import SGDClassifier
+ 
 from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA  # 二次判別分析
 
 # ======================================================================================================
@@ -181,6 +184,15 @@ TABLES_MODELS_PROGNOSIS_CROSS_DIR = (
     TABLES_MODELS_PROGNOSIS_DIR + "/CROSS"
 )
 # ......................................................................................................
+###  5.X.X-explainで生成された表
+TABLES_EXPLAIN_DIR = TABLES_DIR + "/EXPLAIN"
+#### 予後のモデル作成で生成れた表
+TABLES_EXPLAIN_PROGNOSIS_DIR = TABLES_EXPLAIN_DIR + "/PROGNOSIS"
+##### 臨床・遺伝子の予後のモデル作成生成された表
+TABLES_EXPLAIN_PROGNOSIS_CROSS_DIR = (
+    TABLES_EXPLAIN_PROGNOSIS_DIR + "/CROSS"
+)
+# ......................................................................................................
 # ======================================================================================================
 
 
@@ -200,6 +212,7 @@ SET_NAME_MICROARRAY = (
     "mrna_agilent_microarray_zscores_ref_diploid_samples",
 )
 INDEX_MICROARRAY = 2
+THRESHOLD_YEAR=10
 # =====================================================================================================
 
 
@@ -223,18 +236,20 @@ bcm_names = [
 classifiers = [
     LogisticRegression(max_iter=2000, random_state=SEED),
     KNeighborsClassifier(),
-    SVC(kernel="linear", random_state=SEED),
-    SVC(kernel="poly", random_state=SEED),
-    SVC(kernel="rbf", random_state=SEED),
-    SVC(kernel="sigmoid", random_state=SEED),
+    SVC(kernel="linear", random_state=SEED, class_weight= "balanced",),
+    SVC(kernel="poly", random_state=SEED,class_weight= "balanced"),
+    SVC(kernel="rbf", random_state=SEED,class_weight= "balanced"),
+    SVC(kernel="sigmoid", random_state=SEED,class_weight= "balanced"),
     DecisionTreeClassifier(
-        min_samples_split=20, min_samples_leaf=15, random_state=SEED
+        min_samples_split=20, min_samples_leaf=15, random_state=SEED,class_weight= "balanced"
     ),
     RandomForestClassifier(
-        min_samples_split=20, min_samples_leaf=15, random_state=SEED
+        min_samples_split=20, min_samples_leaf=15, random_state=SEED,class_weight= "balanced"
     ),
     AdaBoostClassifier(random_state=SEED),
     GaussianNB(),
+    GradientBoostingClassifier(random_state=SEED),
+    SGDClassifier(random_state=SEED, class_weight= "balanced"),
     QDA(),
 ]
 # =====================================================================================================

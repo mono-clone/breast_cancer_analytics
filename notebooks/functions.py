@@ -130,11 +130,13 @@ def rename_duplicated_columns(df):
 #-----------------------------------------------------------------------------
 # learning function
 # 基本的なスコアの表示（面倒なので関数化した）
-def show_scores(y_test: pd.Series, y_pred: pd.Series):
-    print("accuracy: ", accuracy_score(y_test, y_pred))
-    print("precision: ", precision_score(y_test, y_pred))
-    print("recall: ", recall_score(y_test, y_pred))
-    print("f1 score: ", f1_score(y_test, y_pred))
+def show_scores(y_test: pd.Series, y_pred: pd.Series, save_path:str =None):
+    index=['accuracy','precision', 'recall', 'f1 score']
+    data=[accuracy_score(y_test, y_pred), precision_score(y_test, y_pred), recall_score(y_test, y_pred),f1_score(y_test, y_pred)]
+    series=pd.Series(data, index=index)
+    display(series)
+    if save_path:
+        series.to_csv(save_path)
 
 
 # 混合行列のプロット
