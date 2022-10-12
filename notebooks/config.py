@@ -49,6 +49,11 @@ INTERIM_PREPROCESSED_RECURRENCE_CROSS_DIR = (
     INTERIM_PREPROCESSED_RECURRENCE_DIR + "/CROSS"
 )
 # ......................................................................................................
+### 3.X.X-create_bcmのデータ保存先の最上位パス
+INTERIM_MODELS_DIR = INTERIM_DIR + "/MODELS"
+INTERIM_MODELS_RECURRENCE_DIR = INTERIM_MODELS_DIR + "/RECURRENCE"
+INTERIM_MODELS_RECURRENCE_CROSS_DIR = INTERIM_MODELS_RECURRENCE_DIR + "/CROSS"
+# ......................................................................................................
 ### 4.X.X-tuningのデータ保存先の最上位パス
 INTERIM_TUNING_DIR = INTERIM_DIR + "/TUNING"
 #### 生存期間の保存先のパス
@@ -180,19 +185,19 @@ FIGURES_EXPLAIN_RECURRENCE_CROSS_DIR = (
     FIGURES_EXPLAIN_RECURRENCE_DIR + "/CROSS"
 )
 # ......................................................................................................
-### 6.X.X-validate_genesで生成された画像保存先の最上位パス
-FIGURES_VALGENES_DIR = FIGURES_DIR + "/VALIDATE_GENES"
+### 6.X.X-lifelinesで生成された画像保存先の最上位パス
+FIGURES_LIFELINES_DIR = FIGURES_DIR + "/LIFELINES"
 #### 生存期間の保存先のパス
-FIGURES_VALGENES_PROGNOSIS_DIR = FIGURES_VALGENES_DIR + "/PROGNOSIS"
+FIGURES_LIFELINES_PROGNOSIS_DIR = FIGURES_VALGENES_DIR + "/PROGNOSIS"
 ##### 混合データの保存先のパス
-FIGURES_VALGENES_PROGNOSIS_CROSS_DIR = (
-    FIGURES_VALGENES_PROGNOSIS_DIR + "/CROSS"
+FIGURES_LIFELINES_PROGNOSIS_CROSS_DIR = (
+    FIGURES_LIFELINES_PROGNOSIS_DIR + "/CROSS"
 )
 #### 再発の保存先のパス
-FIGURES_VALGENES_RECURRENCE_DIR = FIGURES_VALGENES_DIR + "/RECURRENCE"
+FIGURES_LIFELINES_RECURRENCE_DIR = FIGURES_VALGENES_DIR + "/RECURRENCE"
 ##### 混合データの保存先のパス
-FIGURES_VALGENES_RECURRENCE_CROSS_DIR = (
-    FIGURES_VALGENES_RECURRENCE_DIR + "/CROSS"
+FIGURES_LIFELINES_RECURRENCE_CROSS_DIR = (
+    FIGURES_LIFELINES_RECURRENCE_DIR + "/CROSS"
 )
 # ......................................................................................................
 ### その他の画像保存先パス

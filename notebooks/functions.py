@@ -129,6 +129,41 @@ def rename_duplicated_columns(df):
     return df
 
 #-----------------------------------------------------------------------------
+# データの読み込み
+# 前処理後、各学習の前段階のデータを読み込む
+def exists_data_files(file_path: str, file_name: str):
+    data_phases = ["train", "val"]
+
+    for data_phase in data_phases:
+        X_path = "{0}/{1}/X_{2}.pkl".format(file_path, data_phase, file_name)
+        y_path = "{0}/{1}/y_{2}.pkl".format(file_path, data_phase, file_name)
+        if not (os.path.exists(X_path) and os.path.exists(y_path)):
+            print('pkl file does not exist')
+            return False
+    return True
+
+
+def read_preprocessed_df(
+    file_path: str = ".",
+    file_name: str = "sample",
+):
+
+    if exists_data_files(file_path, file_name):
+        X_train = pd.read_pickle("{0}/train/X_{1}.pkl".format(file_path, file_name))
+        y_train = pd.read_pickle("{0}/train/y_{1}.pkl".format(file_path, file_name))
+        X_val = pd.read_pickle("{0}/val/X_{1}.pkl".format(file_path, file_name))
+        y_val = pd.read_pickle("{0}/val/y_{1}.pkl".format(file_path, file_name))
+        X_train_val = pd.read_pickle("{0}/train_val/X_{1}.pkl".format(file_path, file_name))
+        y_train_val = pd.read_pickle("{0}/train_val/y_{1}.pkl".format(file_path, file_name))
+        X_test = pd.read_pickle("{0}/test/X_{1}.pkl".format(file_path, file_name))
+        y_test = pd.read_pickle("{0}/test/y_{1}.pkl".format(file_path, file_name))
+        list_train = [X_train, y_train]
+        list_val = [X_val, y_val]
+        list_train_val = [X_train_val, y_train_val]
+        list_test = [X_test, y_test]
+        return list_train, list_val, list_train_val, list_test
+
+#-----------------------------------------------------------------------------
 # learning function
 # 基本的なスコアの表示（面倒なので関数化した）
 def show_scores(y_test: pd.Series, y_pred: pd.Series, save_path:str =None):
