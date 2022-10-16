@@ -1,6 +1,7 @@
 import os
 import random
 import pickle
+import shutil
 
 import numpy as np
 import pandas as pd
@@ -18,7 +19,7 @@ from sklearn.model_selection import StratifiedKFold
 
 # 前処理
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-
+from imblearn.over_sampling import SMOTE
 # 特徴量選択
 from sklearn.feature_selection import GenericUnivariateSelect
 
@@ -42,7 +43,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 import warnings
 
-from config import SEED, bcm_names, classifiers
+from config import SEED, classifier_names, classifiers
 
 
 #-----------------------------------------------------------------------------
@@ -128,13 +129,49 @@ def rename_duplicated_columns(df):
     return df
 
 #-----------------------------------------------------------------------------
+# データの読み込み
+# 前処理後、各学習の前段階のデータを読み込む
+def exists_data_files(file_path: str, file_name: str):
+    data_phases = ["train", "val"]
+
+    for data_phase in data_phases:
+        X_path = "{0}/{1}/X_{2}.pkl".format(file_path, data_phase, file_name)
+        y_path = "{0}/{1}/y_{2}.pkl".format(file_path, data_phase, file_name)
+        if not (os.path.exists(X_path) and os.path.exists(y_path)):
+            print('pkl file does not exist')
+            return False
+    return True
+
+
+def read_preprocessed_df(
+    file_path: str = ".",
+    file_name: str = "sample",
+):
+    if exists_data_files(file_path, file_name):
+        X_train = pd.read_pickle("{0}/train/X_{1}.pkl".format(file_path, file_name))
+        y_train = pd.read_pickle("{0}/train/y_{1}.pkl".format(file_path, file_name))
+        X_val = pd.read_pickle("{0}/val/X_{1}.pkl".format(file_path, file_name))
+        y_val = pd.read_pickle("{0}/val/y_{1}.pkl".format(file_path, file_name))
+        X_train_val = pd.read_pickle("{0}/train_val/X_{1}.pkl".format(file_path, file_name))
+        y_train_val = pd.read_pickle("{0}/train_val/y_{1}.pkl".format(file_path, file_name))
+        X_test = pd.read_pickle("{0}/test/X_{1}.pkl".format(file_path, file_name))
+        y_test = pd.read_pickle("{0}/test/y_{1}.pkl".format(file_path, file_name))
+        list_train = [X_train, y_train]
+        list_val = [X_val, y_val]
+        list_train_val = [X_train_val, y_train_val]
+        list_test = [X_test, y_test]
+        return list_train, list_val, list_train_val, list_test
+
+#-----------------------------------------------------------------------------
 # learning function
 # 基本的なスコアの表示（面倒なので関数化した）
-def show_scores(y_test: pd.Series, y_pred: pd.Series):
-    print("accuracy: ", accuracy_score(y_test, y_pred))
-    print("precision: ", precision_score(y_test, y_pred))
-    print("recall: ", recall_score(y_test, y_pred))
-    print("f1 score: ", f1_score(y_test, y_pred))
+def show_scores(y_test: pd.Series, y_pred: pd.Series, save_path:str =None):
+    index=['accuracy','precision', 'recall', 'f1 score']
+    data=[accuracy_score(y_test, y_pred), precision_score(y_test, y_pred), recall_score(y_test, y_pred),f1_score(y_test, y_pred)]
+    series=pd.Series(data, index=index)
+    display(series)
+    if save_path:
+        series.to_csv(save_path)
 
 
 # 混合行列のプロット
@@ -374,23 +411,22 @@ def compare_bcms(
     y_train: pd.Series(),
     X_val: pd.DataFrame(),
     y_val: pd.Series(),
-    bcm_names: list = bcm_names,
+    classifier_names: list = classifier_names,
     classifiers: list = classifiers,
     sort_column_name: str = "f1_val",
-    over_sampling_class: callable=None,
     # 標準化・正規化の実行の有無、及びそれを適用するcolumns
-    normalization: bool = False,
-    standardization: bool = False,
+    scaling:str='',
     converted_columns: list() = None,
-    plot_cfmatrix: bool = False,
+    sampling:str='',
+    plot: bool = False,
     save_path:str=None,
 ):
     warnings.filterwarnings("ignore")  # lrで警告が出て視認性が悪いので、いったん非表示
     result = []
 
-    for name, clf in tqdm(zip(bcm_names, classifiers)):  # 指定した複数の分類機を順番に呼び出す
+    for name, clf in tqdm(zip(classifier_names, classifiers)):  # 指定した複数の分類機を順番に呼び出す
         # 標準化の処理
-        if standardization:
+        if scaling=='std':
             # 特定のカラムへの適用
             if converted_columns:
                 (
@@ -402,9 +438,8 @@ def compare_bcms(
             # df全体への適用
             else:
                 X_train, X_val = transform_std(X_train, X_val)
-
-        # 正規化の処理
-        if normalization:
+        if scaling=='norm':
+            # 正規化の処理
             # 特定のカラムへの適用
             if converted_columns:
                 (
@@ -417,23 +452,25 @@ def compare_bcms(
             else:
                 X_train, X_val = transform_std(X_train, X_val)
 
-        # オーバーサンプリング（trainデータのみに適用し、testデータには適用しない）
-        if over_sampling_class:
-            X_train, y_train = over_sampling_class.fit_resample(X_train, y_train)
+        # オーバーサンプリング（trainデータのみに適用）
+        if sampling=='sm':
+            sm=SMOTE(random_state=SEED)
+            X_train, y_train = sm.fit_resample(X_train, y_train)
 
         # 訓練のスコア
         clf.fit(X_train, y_train)  # 学習
-        y_pred_train = clf.predict(X_train)
-        acc_train = accuracy_score(y_train, y_pred_train)
-        f1_train = f1_score(y_train, y_pred_train)
+        y_train_pred = clf.predict(X_train)
+        acc_train = accuracy_score(y_train, y_train_pred)
+        f1_train = f1_score(y_train, y_train_pred)
         # 予測値のスコア
-        y_pred_val = clf.predict(X_val)
-        acc_val = accuracy_score(y_val, y_pred_val)  # 正解率（test）の算出
-        f1_val = f1_score(y_val, y_pred_val)
+        y_val_pred = clf.predict(X_val)
+        acc_val = accuracy_score(y_val, y_val_pred)  # 正解率（test）の算出
+        f1_val = f1_score(y_val, y_val_pred)
         result.append([name, acc_train, acc_val, f1_train, f1_val])  # 結果の格納
         # 混合行列の表示
-        if plot_cfmatrix:
-            plot_confusion_matrix(y_val, y_pred_val)
+        if plot:
+            plot_confusion_matrix(y_test=y_train, y_pred=y_train_pred, model_name='train_{0}'.format(clf.__class__.__name__))
+            plot_confusion_matrix(y_test=y_val, y_pred=y_val_pred, model_name='val_{0}'.format(clf.__class__.__name__))
     # 表示設定
     df_result = pd.DataFrame(
         result, columns=["classifier", "acc_train", "acc_val", "f1_train", "f1_val"]
