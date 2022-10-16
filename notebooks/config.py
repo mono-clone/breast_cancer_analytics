@@ -188,13 +188,13 @@ FIGURES_EXPLAIN_RECURRENCE_CROSS_DIR = (
 ### 6.X.X-lifelinesで生成された画像保存先の最上位パス
 FIGURES_LIFELINES_DIR = FIGURES_DIR + "/LIFELINES"
 #### 生存期間の保存先のパス
-FIGURES_LIFELINES_PROGNOSIS_DIR = FIGURES_VALGENES_DIR + "/PROGNOSIS"
+FIGURES_LIFELINES_PROGNOSIS_DIR = FIGURES_LIFELINES_DIR + "/PROGNOSIS"
 ##### 混合データの保存先のパス
 FIGURES_LIFELINES_PROGNOSIS_CROSS_DIR = (
     FIGURES_LIFELINES_PROGNOSIS_DIR + "/CROSS"
 )
 #### 再発の保存先のパス
-FIGURES_LIFELINES_RECURRENCE_DIR = FIGURES_VALGENES_DIR + "/RECURRENCE"
+FIGURES_LIFELINES_RECURRENCE_DIR = FIGURES_LIFELINES_DIR + "/RECURRENCE"
 ##### 混合データの保存先のパス
 FIGURES_LIFELINES_RECURRENCE_CROSS_DIR = (
     FIGURES_LIFELINES_RECURRENCE_DIR + "/CROSS"
@@ -268,7 +268,7 @@ THRESHOLD_MONTHS=THRESHOLD_YEARS*12
 
 # =====================================================================================================
 # 比較する2値分類器の設定
-bcm_names = [
+classifier_names = [
     "Logistic Regression",
     "Nearest Neighbors",
     "Linear SVM",
