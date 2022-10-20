@@ -43,7 +43,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 import warnings
 
-from config import SEED, classifier_names, classifiers
+from config import SEED, classifiers
 
 
 #-----------------------------------------------------------------------------
@@ -181,10 +181,11 @@ def plot_confusion_matrix(
     model_name: str = "confusion matrix",
     display_details: bool = False,
 ):
-    cm = confusion_matrix(y_test, y_pred, normalize="all", labels=[True, False])
+    cm = confusion_matrix(y_test, y_pred, labels=[True, False])
     df_cm = pd.DataFrame(data=cm, index=[True, False], columns=[True, False])
 
     fig = plt.figure()
+    plt.rcParams["font.size"] = 18
     sns.heatmap(df_cm, square=True, cbar=True, annot=True, cmap="Blues")
     plt.title(model_name)
     plt.xlabel("Predict label")
@@ -411,62 +412,27 @@ def compare_bcms(
     y_train: pd.Series(),
     X_val: pd.DataFrame(),
     y_val: pd.Series(),
-    classifier_names: list = classifier_names,
     classifiers: list = classifiers,
     sort_column_name: str = "f1_val",
-    # 標準化・正規化の実行の有無、及びそれを適用するcolumns
-    scaling:str='',
-    converted_columns: list() = None,
-    sampling:str='',
     plot: bool = False,
     save_path:str=None,
 ):
     warnings.filterwarnings("ignore")  # lrで警告が出て視認性が悪いので、いったん非表示
     result = []
 
-    for name, clf in tqdm(zip(classifier_names, classifiers)):  # 指定した複数の分類機を順番に呼び出す
-        # 標準化の処理
-        if scaling=='std':
-            # 特定のカラムへの適用
-            if converted_columns:
-                (
-                    X_train[converted_columns],
-                    X_val[converted_columns],
-                ) = transform_std(
-                    X_train[converted_columns], X_val[converted_columns]
-                )
-            # df全体への適用
-            else:
-                X_train, X_val = transform_std(X_train, X_val)
-        if scaling=='norm':
-            # 正規化の処理
-            # 特定のカラムへの適用
-            if converted_columns:
-                (
-                    X_train[converted_columns],
-                    X_val[converted_columns],
-                ) = transform_norm(
-                    X_train[converted_columns], X_val[converted_columns]
-                )
-            # df全体への適用
-            else:
-                X_train, X_val = transform_std(X_train, X_val)
-
-        # オーバーサンプリング（trainデータのみに適用）
-        if sampling=='sm':
-            sm=SMOTE(random_state=SEED)
-            X_train, y_train = sm.fit_resample(X_train, y_train)
-
+    for clf in classifiers:  # 指定した複数の分類機を順番に呼び出す
         # 訓練のスコア
         clf.fit(X_train, y_train)  # 学習
         y_train_pred = clf.predict(X_train)
         acc_train = accuracy_score(y_train, y_train_pred)
         f1_train = f1_score(y_train, y_train_pred)
+        
         # 予測値のスコア
         y_val_pred = clf.predict(X_val)
         acc_val = accuracy_score(y_val, y_val_pred)  # 正解率（test）の算出
         f1_val = f1_score(y_val, y_val_pred)
-        result.append([name, acc_train, acc_val, f1_train, f1_val])  # 結果の格納
+        result.append([clf.__class__.__name__, acc_train, acc_val, f1_train, f1_val])  # 結果の格納
+        
         # 混合行列の表示
         if plot:
             plot_confusion_matrix(y_test=y_train, y_pred=y_train_pred, model_name='train_{0}'.format(clf.__class__.__name__))
