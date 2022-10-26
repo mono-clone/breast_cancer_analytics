@@ -267,22 +267,6 @@ THRESHOLD_MONTHS=THRESHOLD_YEARS*12
 
 
 # =====================================================================================================
-# 比較する2値分類器の設定
-classifier_names = [
-    "Logistic Regression",
-    "Nearest Neighbors",
-    "Linear SVM",
-    "Polynomial SVM",
-    "RBF SVM",
-    "Sigmoid SVM",
-    "Decision Tree",
-    "Random Forest",
-    "AdaBoost",
-    "Naive Bayes",
-    # "Linear Discriminant Analysis", # predictメソッドに対応していない
-    "Quadratic Discriminant Analysis",
-]
-
 classifiers = [
     LogisticRegression(max_iter=2000, random_state=SEED),
     KNeighborsClassifier(),
