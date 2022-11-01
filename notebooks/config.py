@@ -1,3 +1,17 @@
+# models
+from sklearn.linear_model import LogisticRegression  # ロジスティック回帰
+from sklearn.neighbors import KNeighborsClassifier  # K近傍法
+from sklearn.svm import SVC  # サポートベクターマシン
+from sklearn.tree import DecisionTreeClassifier, export_graphviz  # 決定木
+from sklearn.ensemble import RandomForestClassifier  # ランダムフォレスト
+from sklearn.ensemble import AdaBoostClassifier  # AdaBoost
+from sklearn.naive_bayes import GaussianNB  # ナイーブ・ベイズ
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.linear_model import SGDClassifier
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA  # 二次判別分析
+from sklearn.ensemble import ExtraTreesClassifier
+from lightgbm import LGBMClassifier
+
 # ######################################################################################################
 # データを保存するための最上位パス
 DATA_DIR = "../data"
@@ -117,4 +131,36 @@ URL_cBioPortal = "https://cbioportal-datahub.s3.amazonaws.com/brca_metabric.tar.
 SEED = 100
 THRESHOLD_YEARS = 5
 THRESHOLD_MONTHS = THRESHOLD_YEARS * 12
+
+classifiers = [
+    LogisticRegression(max_iter=2000, random_state=SEED),
+    KNeighborsClassifier(),
+    SVC(
+        kernel="linear",
+        random_state=SEED,
+        class_weight="balanced",
+    ),
+    SVC(kernel="poly", random_state=SEED, class_weight="balanced"),
+    SVC(kernel="rbf", random_state=SEED, class_weight="balanced"),
+    SVC(kernel="sigmoid", random_state=SEED, class_weight="balanced"),
+    DecisionTreeClassifier(
+        min_samples_split=20,
+        min_samples_leaf=15,
+        random_state=SEED,
+        class_weight="balanced",
+    ),
+    RandomForestClassifier(
+        min_samples_split=20,
+        min_samples_leaf=15,
+        random_state=SEED,
+        class_weight="balanced",
+    ),
+    AdaBoostClassifier(random_state=SEED),
+    GaussianNB(),
+    GradientBoostingClassifier(random_state=SEED),
+    SGDClassifier(random_state=SEED, class_weight="balanced"),
+    QDA(),
+    LGBMClassifier(class_weight="balanced", random_state=SEED),
+    ExtraTreesClassifier(class_weight="balanced", random_state=SEED),
+]
 # ######################################################################################################
