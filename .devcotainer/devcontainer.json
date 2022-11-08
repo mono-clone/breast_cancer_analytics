@@ -1,0 +1,5 @@
+{
+  "name": "Breast Cancer Analytics",
+  "dockerFile": "./Dockerfile",
+  "extensions": ["ms-python.python"]
+}
