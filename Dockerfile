@@ -50,4 +50,4 @@ ENV CONDA_DEFAULT_ENV breast-cancer-analytics && PATH /root/conda/envs/breast-ca
 WORKDIR /breast_cancer_analytics
 
 RUN echo 'Conda env is built. please relunch this terminal by using this command "docker restart <container name>"'
-RUN echo 'You can check <container name> by using this command "docker ps"'
+RUN echo 'You can check <container name> by using "docker ps"'
