@@ -21,8 +21,6 @@ PROCESSED_DIR = DATA_DIR + "/processed"
 # ======================================================================================================
 ## 外部データの保存先の最上位パス
 EXTERNAL_DIR = DATA_DIR + "/external"
-### metabricの臨床データを保存
-EXTERNAl_BRCA_METABRIC_DATA_CLNICAL_DIR = EXTERNAL_DIR + "/brca_metabric_data_clinical"
 # ======================================================================================================
 ## 生データ
 RAW_DIR = DATA_DIR + "/raw"

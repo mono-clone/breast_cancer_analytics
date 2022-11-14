@@ -9,8 +9,10 @@
 #
 
 # latest Ubuntu version
-FROM ubuntu:latest  
-#FROM --platform=linux/amd64 ubuntu:latest
+#FROM ubuntu:latest  
+FROM --platform=linux/amd64 ubuntu:latest
+
+WORKDIR /home/breast-cancer-analytics
 
 # setup Ubuntu env 
 RUN apt-get update && apt-get upgrade -y 
@@ -21,7 +23,7 @@ RUN apt-get install -y \
     htop \
     vim \
     wget \
-    bash
+    bash 
 RUN apt-get clean
 
 # install miniconda
@@ -42,12 +44,11 @@ RUN conda update --all -y
 # create conda virtual env
 COPY conda_env.yml .
 RUN conda env create -f=conda_env.yml
+RUN rm -rf conda_env.yml
 RUN conda config --add channels conda-forge
 RUN conda init && echo "conda activate breast-cancer-analytics" >> ~/.bashrc
 
 ENV CONDA_DEFAULT_ENV breast-cancer-analytics && PATH /root/conda/envs/breast-cancer-analytics/bin:$PATH
-
-WORKDIR /breast_cancer_analytics
 
 RUN echo 'Conda env is built. please relunch this terminal by using this command "docker restart <container name>"'
 RUN echo 'You can check <container name> by using "docker ps"'
