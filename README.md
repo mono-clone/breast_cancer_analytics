@@ -31,7 +31,7 @@ docker build --tag breast-cancer-analytics .
 
 # run docker container
 # please run this command in this dir
-docker run --mount type=bind,source="$(pwd)",target=/breast_cancer_analytics -p 8888:8888 -it breast-cancer-analytics:latest
+docker run --mount type=bind,source="$(pwd)",target=/home/breast-cancer-analytics -p 8888:8888 -it breast-cancer-analytics:latest
 
 # relaunch docker container
 # please check <container id> by this command 'docker ps --all'
