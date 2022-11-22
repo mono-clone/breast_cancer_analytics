@@ -7,17 +7,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# 機械学習アルゴリズム
-from sklearn.linear_model import LogisticRegression  # ロジスティック回帰
-from sklearn.neighbors import KNeighborsClassifier  # K近傍法
-from sklearn.svm import SVC  # サポートベクターマシン
-from sklearn.tree import DecisionTreeClassifier, export_graphviz  # 決定木
-from sklearn.ensemble import RandomForestClassifier  # ランダムフォレスト
-from sklearn.ensemble import AdaBoostClassifier  # AdaBoost
-from sklearn.naive_bayes import GaussianNB  # ナイーブ・ベイズ
-from sklearn.decomposition import LatentDirichletAllocation as LDA  # 線形判別分析
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA  # 二次判別分析
-
 # 評価指標
 from tqdm import tqdm
 from sklearn.model_selection import learning_curve
@@ -27,10 +16,10 @@ from sklearn.metrics import (
 )
 from sklearn.metrics import (
     accuracy_score,
-    f1_score,
+    log_loss,
     roc_auc_score,
     matthews_corrcoef,
-    cohen_kappa_score,
+    cohen_kappa_score
 )
 from sklearn.metrics import confusion_matrix
 
@@ -151,13 +140,13 @@ def read_preprocessed_df(
 # -----------------------------------------------------------------------------
 # learning function
 # 基本的なスコアの表示（面倒なので関数化した）
-def show_scores(y_test: pd.Series, y_pred: pd.Series, save_path: str = None):
-    index = ["accuracy", "precision", "recall", "f1 score"]
+def show_scores(y_true: pd.Series, y_pred: pd.Series, save_path: str = None):
+    index = ["accuracy", "log_loss", "roc_auc_score", 'matthews_corrcoef']
     data = [
-        accuracy_score(y_test, y_pred),
-        precision_score(y_test, y_pred),
-        recall_score(y_test, y_pred),
-        f1_score(y_test, y_pred),
+        accuracy_score(y_true, y_pred),
+        log_loss(y_true, y_pred),
+        roc_auc_score(y_true, y_pred),
+        matthews_corrcoef(y_true, y_pred),
     ]
     series = pd.Series(data, index=index)
     display(series)
@@ -209,6 +198,9 @@ def compare_bcms(
         y_train_pred = clf.predict(X_train)
         acc_train = accuracy_score(y_train, y_train_pred)
         f1_train = f1_score(y_train, y_train_pred)
+        # マシューズ相関係数について
+        # 範囲：[-1, 1]で絶対値が大きいほどよい
+        # https://www.datarobot.com/jp/blog/matthews-correlation-coefficient/
         mcc_train = matthews_corrcoef(y_train, y_train_pred)
         ckappa_train = cohen_kappa_score(y_train, y_train_pred)
         auc_train = roc_auc_score(y_train, y_train_pred)
