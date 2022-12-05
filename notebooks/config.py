@@ -50,6 +50,10 @@ INTERIM_TUNING_DIR = INTERIM_DIR + "/TUNING"
 INTERIM_TUNING_RECURRENCE_DIR = INTERIM_TUNING_DIR + "/RECURRENCE"
 ### その他のデータを保存するためのパス
 INTERIM_OTHERS_DIR = INTERIM_DIR + "/OTHERS"
+# ......................................................................................................
+### 5-explain_modelsのデータ保存先の最上位パス
+INTERIM_EXPLAIN_DIR = INTERIM_DIR + "/EXPLAIN"
+INTERIM_EXPLAIN_RECURRENCE_DIR = INTERIM_EXPLAIN_DIR + "/RECURRENCE"
 # ######################################################################################################
 
 
