@@ -2,28 +2,34 @@
 # PROJECT RULES                                                                 #
 #################################################################################
 
-# Docker commands
-cbuild:
-	docker build --tag bca-test:latest .
-#	docker build --tag breast-cancer-analytics .
+ifeq (${OS},Windows_NT)
+    BASEDIR=$(subst /,\\,$(subst /c,C:,${CURDIR}))
+else
+    BASEDIR=${CURDIR}
+endif
 
-crun:
+CONTAINERNAME=breast-cancer-analytics
+
+# Docker commands
+dbuild:
+	docker build --tag ${CONTAINERNAME} .
+
+drun:
 	docker container run \
 	-it \
-	--mount type=bind,source="${PWD}",target=/home/breast-cancer-analytics \
+	--mount type=bind,source=${BASEDIR},target=/home/breast-cancer-analytics \
 	-p 8888:8888 \
-	--name breast-cancer-analytics \
-	bca-test:latest
+	--name ${CONTAINERNAME} \
+	${CONTAINERNAME}:latest
 
+dclear:
+	docker rm ${CONTAINERNAME}
 
-cclear:
-	docker rm breast-cancer-analytics
+drestart:
+	docker restart ${CONTAINERNAME}
 
-crestart:
-	docker restart breast-cancer-analytics
-
-cexec:
-	docker container exec -it breast-cancer-analytics bash
+dexec:
+	docker container exec -it ${CONTAINERNAME} bash
 
 # launch jupyter server
 jupyter:
