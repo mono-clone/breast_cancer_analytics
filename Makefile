@@ -22,7 +22,7 @@ cclear:
 crestart:
 	docker restart breast-cancer-analytics
 
-cexec
+cexec:
 	docker container exec -it breast-cancer-analytics bash
 
 # launch jupyter server

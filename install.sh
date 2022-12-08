@@ -26,6 +26,4 @@ conda install -y jupyter jupyterlab
 conda install -y scikit-learn
 conda install -c conda-forge -y imbalanced-learn scikit-survival lifelines optuna shap eli5
 
-wget https://anaconda.org/conda-forge/nodejs/18.12.1/download/linux-aarch64/nodejs-18.12.1-he850d6a_0.tar.bz2
-conda install nodejs-18.12.1-he850d6a_0.tar.bz2
-rm nodejs-18.12.1-he850d6a_0.tar.bz2
+pip install jupyterlab_code_formatter
