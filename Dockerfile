@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #
 # Building a Docker Image with
 # the Latest Ubuntu Version and
@@ -34,21 +35,13 @@ RUN rm -rf Miniconda.sh
 
 # prepend the new path
 ENV PATH /root/miniconda3/bin:$PATH
+#FROM ubuntu:latest
+FROM --platform=linux/amd64 ubuntu:latest
 
-# install pip package
-RUN pip install --upgrade pip
-# update anaconda 
-RUN conda update -n base -c defaults conda -y
-# update conda packages
-RUN conda update --all -y
-# create conda virtual env
-COPY conda_env.yml .
-RUN conda env create -f=conda_env.yml
-RUN rm -rf conda_env.yml
-RUN conda config --add channels conda-forge
-RUN conda init && echo "conda activate breast-cancer-analytics" >> ~/.bashrc
+WORKDIR /home/breast-cancer-analytics
 
-ENV CONDA_DEFAULT_ENV breast-cancer-analytics && PATH /root/conda/envs/breast-cancer-analytics/bin:$PATH
+COPY ./install.sh ./
+RUN chmod u+x ./install.sh &&\ 
+    ./install.sh
 
-RUN echo 'Conda env is built. please relunch this terminal by using this command "docker restart <container name>"'
-RUN echo 'You can check <container name> by using "docker ps"'
+ENV PATH /root/miniconda3/bin:$PATH
