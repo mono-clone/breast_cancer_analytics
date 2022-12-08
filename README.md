@@ -25,17 +25,17 @@
 
 # 1. docker imageのbuild
 # ※dockerで使用するubuntuイメージはcpuチップに依存します。Dockerfileを確認し、M1チップユーザーは1行目を、それ以外のユーザーは2行目をコメントアウトしてください。
-make cbuild
+make dbuild
 
 # 2. docker containerのrun
 # 1.で構築したイメージからコンテナを実行します。
-make crun
+make drun
 
 # 3. containerのrestart
-make crestart
+make drestart
 
 # 4. 実行中のcontainerに入る
-make cexec
+make dexec
 
 # jupyterの実行
 make jupyter
