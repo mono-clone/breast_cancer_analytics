@@ -22,33 +22,23 @@
 ```
 # PLEASE RUN THESE COMMANDS UNDER THIS PROJECT REPOSITORY (./breast-cancer-analytics)
 
-# build docker image
-# warning: please cheack Dockerifile 1st command 'FROM ~'
-# please use 'FROM ubuntu:latest' if you use Intel chip
-# please use 'FROM --platform=linux/amd64 ubuntu:latest' if you use m1 chip
-# don't forget "." in this command
-docker build --tag breast-cancer-analytics .
 
-# run docker container
-# please run this command in this dir
-docker run --mount type=bind,source="$(pwd)",target=/home/breast-cancer-analytics -p 8888:8888 -it breast-cancer-analytics:latest
+# 1. docker imageのbuild
+# ※dockerで使用するubuntuイメージはcpuチップに依存します。Dockerfileを確認し、M1チップユーザーは1行目を、それ以外のユーザーは2行目をコメントアウトしてください。
+make cbuild
 
-# relaunch docker container
-# please check <container id> by this command 'docker ps --all'
-docker restart <container id>
-# rejoin relaunched docker container
-docker container exec -it <container name> bash
+# 2. docker containerのrun
+# 1.で構築したイメージからコンテナを実行します。
+make crun
 
-# build conda env
-conda env create -f=conda_env.yml
+# 3. containerのrestart
+make crestart
 
-# launch jupyter labs
-# access 'http://localhost:8888' on your browser with token in terminal
-jupyter-lab --ip 0.0.0.0 --allow-root
+# 4. 実行中のcontainerに入る
+make cexec
 
-# export conda env (RUN UNDER ./breast-cancer-analytics)
-# 新しくライブラリ等インストールしたら、このコマンドを実行し、仮想環境に記録すること
-conda env export > conda_env.yml
+# jupyterの実行
+make jupyter
 
 ```
 
