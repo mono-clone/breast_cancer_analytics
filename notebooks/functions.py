@@ -19,7 +19,8 @@ from sklearn.metrics import (
     log_loss,
     roc_auc_score,
     matthews_corrcoef,
-    cohen_kappa_score
+    cohen_kappa_score,
+    f1_score
 )
 from sklearn.metrics import confusion_matrix
 
