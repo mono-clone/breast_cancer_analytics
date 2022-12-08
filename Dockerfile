@@ -9,8 +9,8 @@
 #
 
 # latest Ubuntu version
-#FROM ubuntu:latest  
-FROM --platform=linux/amd64 ubuntu:latest
+FROM ubuntu:latest  
+#FROM --platform=linux/amd64 ubuntu:latest
 
 WORKDIR /home/breast-cancer-analytics
 
@@ -27,7 +27,7 @@ RUN apt-get install -y \
 RUN apt-get clean
 
 # install miniconda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64.sh\
     -O Miniconda.sh
 RUN bash Miniconda.sh -b
 RUN rm -rf Miniconda.sh 

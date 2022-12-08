@@ -416,6 +416,4 @@ dependencies:
   - zlib=1.2.13=h166bdaf_4
   - zlib-ng=2.0.6=h166bdaf_0
   - zstd=1.5.2=h6239696_4
-  - pip:
-    - lightgbm==3.3.2
 prefix: /root/miniconda3/envs/breast-cancer-analytics
