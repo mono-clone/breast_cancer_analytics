@@ -24,8 +24,7 @@ from sklearn.metrics import (
 )
 from sklearn.metrics import confusion_matrix
 
-from config import SEED, classifiers
-
+from config import SEED
 
 # -----------------------------------------------------------------------------
 # basic function
@@ -186,7 +185,7 @@ def compare_bcms(
     y_train: pd.Series(),
     X_val: pd.DataFrame(),
     y_val: pd.Series(),
-    classifiers: list = classifiers,
+    classifiers: list = None,
     plot: bool = False,
     save_path: str = None,
 ):

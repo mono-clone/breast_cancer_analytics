@@ -1,17 +1,3 @@
-# models
-from sklearn.linear_model import LogisticRegression  # ロジスティック回帰
-from sklearn.neighbors import KNeighborsClassifier  # K近傍法
-from sklearn.svm import SVC  # サポートベクターマシン
-from sklearn.tree import DecisionTreeClassifier, export_graphviz  # 決定木
-from sklearn.ensemble import RandomForestClassifier  # ランダムフォレスト
-from sklearn.ensemble import AdaBoostClassifier  # AdaBoost
-from sklearn.naive_bayes import GaussianNB  # ナイーブ・ベイズ
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.linear_model import SGDClassifier
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA  # 二次判別分析
-from sklearn.ensemble import ExtraTreesClassifier
-from lightgbm import LGBMClassifier
-
 # ######################################################################################################
 # データを保存するための最上位パス
 DATA_DIR = "../data"
@@ -50,6 +36,10 @@ INTERIM_TUNING_DIR = INTERIM_DIR + "/TUNING"
 INTERIM_TUNING_RECURRENCE_DIR = INTERIM_TUNING_DIR + "/RECURRENCE"
 ### その他のデータを保存するためのパス
 INTERIM_OTHERS_DIR = INTERIM_DIR + "/OTHERS"
+# ......................................................................................................
+### 5-explain_modelsのデータ保存先の最上位パス
+INTERIM_EXPLAIN_DIR = INTERIM_DIR + "/EXPLAIN"
+INTERIM_EXPLAIN_RECURRENCE_DIR = INTERIM_EXPLAIN_DIR + "/RECURRENCE"
 # ######################################################################################################
 
 
@@ -129,6 +119,21 @@ URL_cBioPortal = "https://cbioportal-datahub.s3.amazonaws.com/brca_metabric.tar.
 SEED = 100
 THRESHOLD_YEARS = 5
 THRESHOLD_MONTHS = THRESHOLD_YEARS * 12
+'''
+
+# models
+from sklearn.linear_model import LogisticRegression  # ロジスティック回帰
+from sklearn.neighbors import KNeighborsClassifier  # K近傍法
+from sklearn.svm import SVC  # サポートベクターマシン
+from sklearn.tree import DecisionTreeClassifier, export_graphviz  # 決定木
+from sklearn.ensemble import RandomForestClassifier  # ランダムフォレスト
+from sklearn.ensemble import AdaBoostClassifier  # AdaBoost
+from sklearn.naive_bayes import GaussianNB  # ナイーブ・ベイズ
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.linear_model import SGDClassifier
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis as QDA  # 二次判別分析
+from sklearn.ensemble import ExtraTreesClassifier
+from lightgbm import LGBMClassifier
 
 classifiers = [
     LogisticRegression(max_iter=2000, random_state=SEED),
@@ -161,4 +166,5 @@ classifiers = [
     LGBMClassifier(class_weight="balanced", random_state=SEED),
     ExtraTreesClassifier(class_weight="balanced", random_state=SEED),
 ]
+'''
 # ######################################################################################################
