@@ -24,6 +24,6 @@ conda install -y numpy pandas matplotlib seaborn
 conda install -y flake8 black
 conda install -y jupyter jupyterlab
 conda install -y scikit-learn
-conda install -c conda-forge -y imbalanced-learn scikit-survival lifelines optuna shap eli5
+conda install -c conda-forge -y imbalanced-learn scikit-survival lifelines optuna shap eli5 lightgbm
 
 pip install jupyterlab_code_formatter

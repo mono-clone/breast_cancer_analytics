@@ -1,14 +1,16 @@
 import os
 import pickle
+import dill
+
 import warnings
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 # 評価指標
-from tqdm import tqdm
 from sklearn.model_selection import learning_curve
 from sklearn.metrics import (
     precision_score,
@@ -47,9 +49,18 @@ def pickle_dump(obj, path):
 
 def pickle_load(path):
     with open(path, mode="rb") as f:
-        data = pickle.load(f)
-        return data
+        obj = pickle.load(f)
+        return obj
 
+# dillオブジェクトにして保存
+def dill_dump(obj, path):
+    with open(path, mode="wb") as f:
+        dill.dump(obj, f)
+
+def dill_load(path):
+    with open(path, mode="rb") as f:
+        obj = dill.load(f)
+        return obj
 
 # -----------------------------------------------------------------------------
 # df status function
