@@ -66,9 +66,9 @@ class NormalizationAsDataFrame(BaseEstimator, TransformerMixin):
 
 # PCAで次元削減を行うクラス
 class PCAAsDataFrame(BaseEstimator, TransformerMixin):
-    def __init__(self, selector=None):
+    def __init__(self, selector=None, n_components:float=0.95):
         self.selector = selector
-        self.pca = PCA(n_components=0.95, random_state=config.SEED)
+        self.pca = PCA(n_components=n_components, random_state=config.SEED)
 
     def fit(self, X, y=None):
         self.pca.fit(X)
