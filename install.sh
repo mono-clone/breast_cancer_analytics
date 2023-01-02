@@ -21,6 +21,7 @@ conda update -n base -c defaults conda -y
 conda update --all -y
 
 conda install -y numpy pandas matplotlib seaborn
+conda install -y dill
 conda install -y flake8 black
 conda install -y jupyter jupyterlab
 conda install -y scikit-learn
