@@ -93,3 +93,4 @@ references/meetings/
 reports/
 notebooks/*.png
 notebooks/*.jpeg
+notebooks/*.csv
