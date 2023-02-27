@@ -1,23 +1,51 @@
 # breast_cancer_analytics
 
 修士論文共同研究
+機械学習技術を応用した潜在的な乳がんの晩期再発バイオマーカーの推定
 
-言語：Python
+開発言語：Python
 
 # 環境構築
 
-**プラットフォーム**
-- Ubuntu on Docker + Anaconda env
+## 採用技術
 
-**利用サービス**
-- git
-- github
-- notion
+### 開発環境インフラ
 
-## Docker
+- Docker：コンテナ
+- Makefile：コンテナ実行
 
-以下のコマンドで環境を構築できます。  
-不足しているライブラリは適宜 docker 環境内で`conda install (or pip install)`してください。
+### 開発環境
+
+- Jupyter Lab：解析環境
+- miniconda：ライブラリ管理
+
+### バージョン管理
+
+- git：ローカルバージョン管理
+- github：リモートバージョン管理
+
+### 情報共有
+
+- notion：解析情報共有
+- slack：連絡伝達・github 通知
+
+## ローカル環境にインストール必要なツール
+
+本ソースコードを実行するには以下のツールが必要です。
+
+- [Docker](https://www.docker.com/)
+- [Make](https://www.gnu.org/software/make/)
+- [git](https://git-scm.com/)
+
+## 開発環境構築
+
+本研究の開発環境は Docker のコンテナ上で実行できます。  
+Docker は Dockerfile に記述された設定に基づいて、『イメージの作成 ▷ コンテナの作成 ▷ コンテナの起動』の順序で実行することが多いです。  
+基本的には CLI（コマンドラインインターフェース）による実行が中心ですが、このコマンドを覚えるのも（引数などがあり）大変なため、Makefile で簡略化しました。  
+以下のコマンドで環境を構築できます。
+
+各 make hogehoge 内で何をしているかは Makefile を確認してください。
+Makefile 内で記述されている Docker のコマンドについては[公式ドキュメント](https://docs.docker.com/)を参照してください。
 
 ```
 # PLEASE RUN THESE COMMANDS UNDER THIS PROJECT REPOSITORY (./breast-cancer-analytics)
@@ -37,29 +65,28 @@ make drestart
 # 4. 実行中のcontainerに入る
 make dexec
 
-# jupyterの実行
+# jupyterの実行（dockerのUbuntu環境内で実行）
 make jupyter
 
 ```
 
-# git・github によるソースコード管理
+不足しているライブラリは適宜 docker 環境内で`conda install (or pip install)`するか、Dockerfile 内に追加記述してください。
 
-複数人が携わる開発環境では、それぞれの開発部分が重複したり、バラバラに開発するせいで収集がつかなくなることがあります。  
-これは事前にルールを決めてもうっかり忘れが発生したり、ルールの管理・認知コストがかかってしまい、完全になくすことはできません。  
-そこで、ソースコードを管理する上でスタンダードなツールである git・github を使用します。
+# git・github によるソースコードバージョン管理
 
 ## 理解する必要のある概念
 
 以下のコマンドや概念については理解してください。  
-git や github の基本的な概念になります。　　
-Google で調べれば出てきます。
+git や github の基本的な概念になります。
 
 ### コマンド
 
 - git add .
-- git commit -m 'comment'
-- git push origin _your remote branch_
-- git pull origin main
+- git commit -m _your_comment_
+- git push origin _your_branch_name_
+- git pull origin _main_branch_name_
+- git branch _your_branch_name_
+- git checkout _any_branch_name_
 
 ### 概念
 
@@ -74,7 +101,7 @@ Google で調べれば出てきます。
 ```
 git add .
 
-git commit -m 'comment'
+git commit -m 'your_comment'
 
 git push origin <remote_branch_name>
 ```
@@ -82,7 +109,7 @@ git push origin <remote_branch_name>
 ### remote の内容を local に反映するコマンド
 
 ```
-git pull origin <remote_branch_name>
+git pull origin <your_branch_name>
 ```
 
 ## 各種概念
@@ -156,13 +183,13 @@ jupyter notebook は全て./notebooks 以下に置くこと。
 
 #### カテゴリ番号の区分について
 
-**大区分** 
-0. 分析以前の処理（データダウンロード）
+**大区分** 0. 分析以前の処理（データダウンロード）
+
 1. EDA
 2. 前処理
 3. モデル構築
 4. ハイパーパラメーターチューニング
-5. テストデータの半か性能検証・XAIの適用
+5. テストデータの半か性能検証・XAI の適用
 6. 生存時間解析
 
 ### ノートブック内セル規則
